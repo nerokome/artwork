@@ -16,7 +16,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
         <div className="relative z-10 px-6 py-10 sm:p-16 text-center sm:text-left">
           <h2 className="text-3xl sm:text-5xl font-extrabold leading-tight text-white animate-fadeIn">
-            Artfolio: Showcase Your Genius.
+            Artfolio: Showcase Your Genius
             <br />
             <span className="text-cyan-400">Track Your Legacy</span>
           </h2>
