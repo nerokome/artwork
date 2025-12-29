@@ -1,54 +1,89 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL 
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
-export const signupUser = createAsyncThunk(
-  'user/signup',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/auth/signup`, { email, password });
-      return response.data; 
-    } catch (err: any) {
-      return rejectWithValue(err.response.data);
-    }
+interface UserState {
+  user: User | null;
+  token: string | null;
+  loading: boolean;
+  error: any;
+}
+
+// Read from localStorage safely
+const getStoredUser = (): User | null => {
+  try {
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
   }
-);
-
-
-export const loginUser = createAsyncThunk(
-  'user/login',
-  async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
-      return response.data; 
-    } catch (err: any) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-const initialState = {
-  user: null,
-  token: null,
-  loading: false,
-  error: null as unknown,
 };
 
+const getStoredToken = (): string | null => {
+  try {
+    return localStorage.getItem('token');
+  } catch {
+    return null;
+  }
+};
+
+const initialState: UserState = {
+  user: getStoredUser(),
+  token: getStoredToken(),
+  loading: false,
+  error: null,
+};
+
+// THUNKS
+export const signupUser = createAsyncThunk<
+  { user: User; token: string },
+  { fullName: string; email: string; password: string },
+  { rejectValue: any }
+>('user/signup', async ({ fullName, email, password }, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/signup`, { fullName, email, password });
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response?.data || { message: 'Signup failed' });
+  }
+});
+
+export const loginUser = createAsyncThunk<
+  { user: User; token: string },
+  { email: string; password: string },
+  { rejectValue: any }
+>('user/login', async ({ email, password }, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
+    return response.data;
+  } catch (err: any) {
+    return rejectWithValue(err.response?.data || { message: 'Login failed' });
+  }
+});
+
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  return;
+});
+
+// SLICE
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      // Signup
+      // SIGNUP
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -57,12 +92,14 @@ const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // Login
+      // LOGIN
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -71,13 +108,20 @@ const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // LOGOUT
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.token = null;
+        state.error = null;
       });
   },
 });
 
-export const { logout } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,34 +1,45 @@
-'use client';
+'use client'
 
-import React, { useRef, useState } from 'react';
-import { UploadCloud, Lock, ImageIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState, AppDispatch } from '@/app/redux/store/store'
+import { uploadArtwork } from '@/app/redux/store/uploadslice'
+import { UploadCloud, Lock, ImageIcon } from 'lucide-react'
 
 export default function Page() {
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const dispatch = useDispatch<AppDispatch>()
+  const { loading } = useSelector((state: RootState) => state.artwork)
 
-  const [progress, setProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
-  const [filesCount, setFilesCount] = useState(0);
+  const [progress, setProgress] = useState(0)
+  const [filesCount, setFilesCount] = useState(0)
+  const [successMessage, setSuccessMessage] = useState('')
 
-  const handleUpload = (files: FileList) => {
-    if (!files.length) return;
+  const handleUpload = async (files: FileList) => {
+    if (!files.length) return
 
-    // Simulate upload progress for static demo
-    setFilesCount(files.length);
-    setProgress(0);
-    setIsUploading(true);
+    setFilesCount(files.length)
+    setProgress(0)
+    setSuccessMessage('') 
 
-    let loaded = 0;
-    const total = files.length * 100; // arbitrary units
-    const interval = setInterval(() => {
-      loaded += 10;
-      setProgress(Math.min(Math.round((loaded / total) * 100), 100));
-      if (loaded >= total) {
-        clearInterval(interval);
-        setIsUploading(false);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      try {
+        await dispatch(
+          uploadArtwork({
+            title: file.name,
+            file,
+          })
+        ).unwrap()
+        
+        setProgress(Math.round(((i + 1) / files.length) * 100))
+      } catch (err) {
+        console.error('Upload failed:', err)
       }
-    }, 100);
-  };
+    }
+
+    setSuccessMessage('Artwork uploaded successfully!') 
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
@@ -41,7 +52,6 @@ export default function Page() {
         }}
       >
         <div className="absolute inset-0 bg-black/90 sm:bg-black/90" />
-
         <div className="relative z-10 p-6 sm:p-10">
           <div className="mb-8">
             <h1 className="text-3xl text-zinc-200 font-bold mb-4">
@@ -60,18 +70,20 @@ export default function Page() {
 
               <div
                 className="border-2 border-dashed border-neutral-700 rounded-xl p-10
-                flex flex-col items-center justify-center text-center
-                hover:border-cyan-400 transition cursor-pointer"
+                           flex flex-col items-center justify-center text-center
+                           hover:border-cyan-400 transition cursor-pointer"
                 onClick={() => inputRef.current?.click()}
               >
                 <UploadCloud size={48} className="text-neutral-400 mb-4" />
                 <p className="text-white font-medium">Drag & Drop your files</p>
-                <p className="text-sm text-neutral-400 mt-1">PNG, JPG, WEBP up to 20MB</p>
+                <p className="text-sm text-neutral-400 mt-1">
+                  PNG, JPG, WEBP up to 20MB
+                </p>
 
                 <button
                   type="button"
                   className="mt-6 px-6 py-2 rounded-lg
-                  bg-cyan-500 text-black font-medium hover:bg-cyan-400 transition"
+                             bg-cyan-500 text-black font-medium hover:bg-cyan-400 transition"
                 >
                   Browse Files
                 </button>
@@ -82,10 +94,14 @@ export default function Page() {
                   multiple
                   hidden
                   onChange={(e) => {
-                    if (e.target.files) handleUpload(e.target.files);
+                    if (e.target.files) handleUpload(e.target.files)
                   }}
                 />
               </div>
+
+              {successMessage && (
+                <p className="mt-4 text-cyan-400 font-medium">{successMessage}</p>
+              )}
             </div>
 
             <div className="bg-black/60 backdrop-blur-md rounded-xl p-6 border border-white/5 flex flex-col justify-between">
@@ -98,7 +114,7 @@ export default function Page() {
                 <Option icon={<ImageIcon size={18} />} title="Generate preview thumbnails" />
               </div>
 
-              {isUploading && (
+              {loading && (
                 <div className="mt-6">
                   <p className="text-sm text-neutral-400 mb-2">
                     Uploading {filesCount} file{filesCount > 1 ? 's' : ''} — {progress}%
@@ -117,16 +133,16 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function Option({ icon, title }: { icon: React.ReactNode; title: string }) {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(false)
 
   return (
     <div
       className="flex items-center justify-between p-3 rounded-lg mb-3
-      hover:bg-white/5 transition cursor-pointer"
+                 hover:bg-white/5 transition cursor-pointer"
       onClick={() => setEnabled(!enabled)}
     >
       <div className="flex items-center gap-3 text-neutral-300">
@@ -136,13 +152,13 @@ function Option({ icon, title }: { icon: React.ReactNode; title: string }) {
 
       <div
         className={`w-10 h-5 rounded-full relative transition-colors
-        ${enabled ? 'bg-cyan-400' : 'bg-neutral-700'}`}
+                   ${enabled ? 'bg-cyan-400' : 'bg-neutral-700'}`}
       >
         <div
           className={`absolute w-3 h-3 bg-black rounded-full transition-all
-          ${enabled ? 'right-1' : 'left-1'} top-1`}
+                     ${enabled ? 'right-1' : 'left-1'} top-1`}
         />
       </div>
     </div>
-  );
+  )
 }
