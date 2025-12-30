@@ -18,17 +18,16 @@ const Page = () => {
 
   return (
     <div className="relative min-h-screen">
-      {/* Full-page Background */}
+      
       <div
         className="fixed inset-0 bg-cover bg-center -z-10"
         style={{ backgroundImage: "url('/fotos.jpg')" }}
       />
-      {/* Overlay for readability */}
+      
       <div className="fixed inset-0 bg-black/90 -z-10" />
 
-      {/* Content without any background color */}
+      
       <div className="relative">
-        {/* Hero */}
         <div className="relative rounded-b-2xl overflow-hidden">
           <div className="relative flex flex-col items-center text-center py-12 sm:py-16 px-4">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
@@ -40,7 +39,7 @@ const Page = () => {
           </div>
         </div>
 
-        {/* States */}
+        
         {loading && (
           <p className="text-center text-white py-6">Loading artworks...</p>
         )}
@@ -50,7 +49,7 @@ const Page = () => {
           </p>
         )}
 
-        {/* Grid */}
+  
         <div className="px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
           {myArtworks.map((art) => (
             <div
@@ -91,7 +90,7 @@ const Page = () => {
           ))}
         </div>
 
-        {/* Modal */}
+        
         {selectedImage && (
           <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 px-3 sm:px-6">
             <button
