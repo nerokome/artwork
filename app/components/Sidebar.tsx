@@ -17,15 +17,21 @@ import Image from 'next/image'
 
 export default function Sidebar() {
   const pathname = usePathname()
-  const [collapsed, setCollapsed] = useState(false)   // desktop collapse
-  const [mobileOpen, setMobileOpen] = useState(false) // mobile drawer
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  const isActive = (path: string) =>
-    pathname === path || pathname.startsWith(path + '/')
+  const isActive = (path: string) => pathname === path
+
+  const links = [
+    { href: '/dashboard', label: 'Portfolio', icon: <LayoutDashboard size={22} /> },
+    { href: '/dashboard/uploaddocs', label: 'Upload Docs', icon: <Upload size={22} /> },
+    { href: '/dashboard/analyticsdash', label: 'Analytics', icon: <BarChart size={22} /> },
+    { href: '/dashboard/settings', label: 'Settings', icon: <Settings size={22} /> },
+  ]
 
   return (
     <>
-      
+      {/* Mobile Header */}
       <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/rarrr.png" alt="Artfolio Logo" width={40} height={40} />
@@ -39,50 +45,34 @@ export default function Sidebar() {
         </button>
       </nav>
 
+      {/* Mobile Sidebar (50% width, no overlay) */}
       {mobileOpen && (
-        <aside className="absolute left-0 top-0 h-full w-64 bg-neutral-900 text-neutral-200 flex flex-col p-4 md:hidden z-50">
+        <aside className="fixed top-0 left-0 h-full w-1/2 z-50 bg-neutral-900 text-neutral-200 flex flex-col p-4 md:hidden shadow-lg">
           <button
             onClick={() => setMobileOpen(false)}
             className="self-end mb-4 p-2 rounded-md hover:bg-neutral-800"
           >
             <X size={24} />
           </button>
-          <nav>
+          <nav className="flex-1 overflow-y-auto">
             <ul className="space-y-6">
-              <SidebarItem
-                href="/dashboard"
-                icon={<LayoutDashboard size={22} />}
-                label="Portfolio"
-                active={isActive('/dashboard')}
-                collapsed={false}
-              />
-              <SidebarItem
-                href="/dashboard/uploaddocs"
-                icon={<Upload size={22} />}
-                label="Upload Docs"
-                active={isActive('/dashboard/uploaddocs')}
-                collapsed={false}
-              />
-              <SidebarItem
-                href="/dashboard/analyticsdash"
-                icon={<BarChart size={22} />}
-                label="Analytics"
-                active={isActive('/dashboard/analyticsdash')}
-                collapsed={false}
-              />
-              <SidebarItem
-                href="/dashboard/settings"
-                icon={<Settings size={22} />}
-                label="Settings"
-                active={isActive('/dashboard/settings')}
-                collapsed={false}
-              />
+              {links.map(link => (
+                <SidebarItem
+                  key={link.href}
+                  href={link.href}
+                  icon={link.icon}
+                  label={link.label}
+                  active={isActive(link.href)}
+                  collapsed={false}
+                  onClick={() => setMobileOpen(false)}
+                />
+              ))}
             </ul>
           </nav>
         </aside>
       )}
 
-      
+      {/* Desktop Sidebar */}
       <aside
         className={`hidden md:flex h-screen bg-neutral-900 text-neutral-200 flex-col transition-all duration-300
         ${collapsed ? 'w-20' : 'w-64'}`}
@@ -108,34 +98,16 @@ export default function Sidebar() {
         </div>
         <nav className="flex-1 px-2">
           <ul className="space-y-10 mt-8">
-            <SidebarItem
-              href="/dashboard"
-              icon={<LayoutDashboard size={22} />}
-              label="Portfolio"
-              active={isActive('/dashboard')}
-              collapsed={collapsed}
-            />
-            <SidebarItem
-              href="/dashboard/uploaddocs"
-              icon={<Upload size={22} />}
-              label="Upload Docs"
-              active={isActive('/dashboard/uploaddocs')}
-              collapsed={collapsed}
-            />
-            <SidebarItem
-              href="/dashboard/analyticsdash"
-              icon={<BarChart size={22} />}
-              label="Analytics"
-              active={isActive('/dashboard/analyticsdash')}
-              collapsed={collapsed}
-            />
-            <SidebarItem
-              href="/dashboard/settings"
-              icon={<Settings size={22} />}
-              label="Settings"
-              active={isActive('/dashboard/settings')}
-              collapsed={collapsed}
-            />
+            {links.map(link => (
+              <SidebarItem
+                key={link.href}
+                href={link.href}
+                icon={link.icon}
+                label={link.label}
+                active={isActive(link.href)}
+                collapsed={collapsed}
+              />
+            ))}
           </ul>
         </nav>
       </aside>
@@ -149,20 +121,22 @@ function SidebarItem({
   label,
   active,
   collapsed,
+  onClick,
 }: {
   href: string
   icon: React.ReactNode
   label: string
   active: boolean
   collapsed: boolean
+  onClick?: () => void
 }) {
   return (
     <li>
       <Link
         href={href}
-        className={`flex items-center gap-5 px-3 py-2 rounded-lg
-        transition-colors
-        ${active ? 'bg-neutral-800' : 'hover:bg-neutral-800'}
+        onClick={onClick}
+        className={`flex items-center gap-5 px-3 py-2 rounded-lg transition-colors
+        ${active ? 'bg-neutral-800 font-semibold' : 'hover:bg-neutral-800'}
         ${collapsed ? 'justify-center' : ''}`}
       >
         {icon}

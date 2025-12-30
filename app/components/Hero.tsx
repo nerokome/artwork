@@ -1,5 +1,9 @@
 import React from "react";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { IoAnalytics } from "react-icons/io5";
+import { RiSlideshow3Fill } from "react-icons/ri";
+import { TbWorld } from "react-icons/tb";
 
 const Hero = () => {
   return (
@@ -28,9 +32,11 @@ const Hero = () => {
 
           
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
-            <button className="w-full sm:w-auto rounded-md bg-cyan-400 px-6 py-3 text-black font-semibold hover:bg-cyan-300 transition flex items-center justify-center gap-2">
-              Sign Up Free <ArrowRight size={18} />
-            </button>
+            <Link href="/auth/signup">
+      <button className="w-full sm:w-auto rounded-md bg-cyan-400 px-6 py-3 text-black font-semibold hover:bg-cyan-300 transition flex items-center justify-center gap-2">
+        Sign Up Free <ArrowRight size={18} />
+      </button>
+    </Link>
 
             <button className="w-full sm:w-auto rounded-md border border-cyan-400 px-6 py-3 text-cyan-400 hover:bg-cyan-400 hover:text-black transition">
               Learn More
@@ -40,21 +46,25 @@ const Hero = () => {
           
           <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-gray-200">
             <div className="p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/60 transition">
-              <h3 className="text-base font-semibold text-cyan-400">📊 Analytics</h3>
+            <div className="flex flex-row items-center gap-2">
+               <IoAnalytics size={30} color="#67E8F9" /> <h3 className="text-base font-semibold text-cyan-400"> Analytics</h3> 
+            </div>
+              
               <p className="text-sm mt-1">
                 Track views, likes, and engagement across your portfolio.
               </p>
             </div>
 
             <div className="p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/60 transition">
-              <h3 className="text-base font-semibold text-cyan-400">🎨 Showcase</h3>
+            <div className="flex flex-row items-center gap-2"><RiSlideshow3Fill size={30} color="#67E8F9" /> <h3 className="text-base font-semibold text-cyan-400"> Showcase</h3> </div>
+              
               <p className="text-sm mt-1">
                 Display your best work in a stunning, customizable gallery.
               </p>
             </div>
 
             <div className="p-4 rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/60 transition">
-              <h3 className="text-base font-semibold text-cyan-400">🌍 Community</h3>
+            <div className="flex flex-row items-center gap-2"><TbWorld size={30} color="#67E8F9" /> <h3 className="text-base font-semibold text-cyan-400"> Community</h3> </div>
               <p className="text-sm mt-1">
                 Connect with fellow creators and grow your audience.
               </p>
