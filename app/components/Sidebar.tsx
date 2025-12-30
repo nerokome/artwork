@@ -10,13 +10,20 @@ import {
   ChevronRight,
   Menu,
   X,
+  LogOut,
 } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/app/redux/store/store'
+import { logoutUser } from '@/app/redux/store/userslice' // adjust path if needed
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+  const dispatch = useDispatch<AppDispatch>()
+
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -29,10 +36,16 @@ export default function Sidebar() {
     { href: '/dashboard/settings', label: 'Settings', icon: <Settings size={22} /> },
   ]
 
+  const handleLogout = async () => {
+    await dispatch(logoutUser())
+    setMobileOpen(false)
+    router.replace('/') // hard redirect, no back navigation
+  }
+
   return (
     <>
       {/* Mobile Header */}
-      <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-between px-4 py-3">
+      <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-between px-4 py-6">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/rarrr.png" alt="Artfolio Logo" width={40} height={40} />
           <span className="font-bold">Artfolio</span>
@@ -45,7 +58,7 @@ export default function Sidebar() {
         </button>
       </nav>
 
-      {/* Mobile Sidebar (50% width, no overlay) */}
+      {/* Mobile Sidebar */}
       {mobileOpen && (
         <aside className="fixed top-0 left-0 h-full w-1/2 z-50 bg-neutral-900 text-neutral-200 flex flex-col p-4 md:hidden shadow-lg">
           <button
@@ -54,7 +67,8 @@ export default function Sidebar() {
           >
             <X size={24} />
           </button>
-          <nav className="flex-1 overflow-y-auto">
+
+          <nav className="flex-1">
             <ul className="space-y-6">
               {links.map(link => (
                 <SidebarItem
@@ -69,10 +83,19 @@ export default function Sidebar() {
               ))}
             </ul>
           </nav>
+
+          {/* 🔥 Logout — Mobile only */}
+          <button
+            onClick={handleLogout}
+            className="mt-6 flex items-center gap-4 px-3 py-2 rounded-lg text-cyan-400 hover:bg-neutral-800 transition"
+          >
+            <LogOut size={20} />
+            <span className="text-sm font-medium">Logout</span>
+          </button>
         </aside>
       )}
 
-      {/* Desktop Sidebar */}
+      
       <aside
         className={`hidden md:flex h-screen bg-neutral-900 text-neutral-200 flex-col transition-all duration-300
         ${collapsed ? 'w-20' : 'w-64'}`}
@@ -80,13 +103,7 @@ export default function Sidebar() {
         <div className="flex items-center justify-between px-4 py-4 mt-2">
           {!collapsed && (
             <Link href="/">
-              <Image
-                src="/rarrr.png"
-                alt="Artfolio Logo"
-                width={150}
-                height={150}
-                priority
-              />
+              <Image src="/rarrr.png" alt="Artfolio Logo" width={150} height={150} />
             </Link>
           )}
           <button
@@ -96,6 +113,7 @@ export default function Sidebar() {
             {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
         </div>
+
         <nav className="flex-1 px-2">
           <ul className="space-y-10 mt-8">
             {links.map(link => (
@@ -140,7 +158,7 @@ function SidebarItem({
         ${collapsed ? 'justify-center' : ''}`}
       >
         {icon}
-        {!collapsed && <span className="text-sm whitespace-nowrap">{label}</span>}
+        {!collapsed && <span className="text-sm">{label}</span>}
       </Link>
     </li>
   )
