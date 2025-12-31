@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +13,13 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Line, Doughnut } from 'react-chartjs-2';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/app/redux/store/store';
+import {
+  fetchViewsOverTime,
+  fetchEngagementSplit,
+  fetchMostViewedArtworks,
+} from '@/app/redux/store/analysisslice';
 
 ChartJS.register(
   CategoryScale,
@@ -25,13 +32,24 @@ ChartJS.register(
   ArcElement
 );
 
-export default function Page() {
-  const viewsOverTime = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+export default function Dashboard() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { viewsOverTime, engagementSplit, mostViewed, loading } = useSelector(
+    (state: RootState) => state.analytics
+  );
+
+  useEffect(() => {
+    dispatch(fetchViewsOverTime());
+    dispatch(fetchEngagementSplit());
+    dispatch(fetchMostViewedArtworks());
+  }, [dispatch]);
+
+  const lineData = {
+    labels: viewsOverTime.map((v) => v._id),
     datasets: [
       {
         label: 'Profile Views',
-        data: [12, 18, 25, 40, 32, 55, 48],
+        data: viewsOverTime.map((v) => v.views),
         fill: true,
         borderColor: '#22d3ee',
         backgroundColor: 'rgba(34, 211, 238, 0.12)',
@@ -41,7 +59,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white ">
+    <div className="min-h-screen bg-black text-white">
       <div
         className="relative rounded-2xl overflow-hidden"
         style={{
@@ -50,10 +68,8 @@ export default function Page() {
           backgroundPosition: 'center',
         }}
       >
-        
         <div className="absolute inset-0 bg-black/90 sm:bg-black/90" />
 
-      
         <div className="relative z-10 p-6 sm:p-10">
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-4">Analytics Dashboard</h1>
@@ -62,45 +78,46 @@ export default function Page() {
             </p>
           </div>
 
+          {loading && <p className="text-center text-zinc-400">Loading...</p>}
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
+            {/* Line Chart */}
             <div className="lg:col-span-8 space-y-6">
               <div className="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/5">
-                <h2 className="text-xl font-medium mb-6">
-                  Views Over Time
-                </h2>
+                <h2 className="text-xl font-medium mb-6">Views Over Time</h2>
                 <div className="h-64">
-                  <Line data={viewsOverTime} options={{ maintainAspectRatio: false }} />
+                  <Line data={lineData} options={{ maintainAspectRatio: false }} />
                 </div>
               </div>
 
+              {/* Donut Charts */}
               <div className="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/5">
-                <h2 className="text-xl font-medium mb-6">
-                  Engagement Split
-                </h2>
+                <h2 className="text-xl font-medium mb-6">Engagement Split</h2>
                 <div className="flex flex-wrap gap-10">
-                  <DonutStat label="Artwork A" value={45} />
-                  <DonutStat label="Artwork B" value={30} />
-                  <DonutStat label="Artwork C" value={25} />
+                  {engagementSplit.map((item: { _id: string; views: number }) => (
+                    <DonutStat
+                      key={item._id}
+                      label={item._id}
+                      value={item.views}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
 
-            
+            {/* Most Viewed */}
             <div className="lg:col-span-4 bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/5">
-              <h2 className="text-xl font-medium mb-6">
-                Most Viewed Pieces
-              </h2>
+              <h2 className="text-xl font-medium mb-6">Most Viewed Pieces</h2>
               <div className="space-y-4">
-                {['Neon Portrait', 'Night Cityscape', 'Urban Loneliness'].map((title) => (
+                {mostViewed.map((art: { _id: string; title: string; type?: string }) => (
                   <div
-                    key={title}
+                    key={art._id}
                     className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition"
                   >
                     <div className="w-16 h-12 bg-zinc-700 rounded-lg" />
                     <div>
-                      <p className="text-sm font-semibold">{title}</p>
-                      <p className="text-xs text-zinc-400">Digital Art</p>
+                      <p className="text-sm font-semibold">{art.title}</p>
+                      <p className="text-xs text-zinc-400">{art.type || 'Digital Art'}</p>
                     </div>
                   </div>
                 ))}
@@ -114,6 +131,7 @@ export default function Page() {
 }
 
 function DonutStat({ label, value }: { label: string; value: number }) {
+  const normalizedValue = Math.min(value, 100); // clamp
   return (
     <div className="text-center">
       <div className="relative w-32 h-32 mx-auto">
@@ -121,7 +139,7 @@ function DonutStat({ label, value }: { label: string; value: number }) {
           data={{
             datasets: [
               {
-                data: [value, 100 - value],
+                data: [normalizedValue, 100 - normalizedValue],
                 backgroundColor: ['#22d3ee', '#2d2d2d'],
                 borderWidth: 0,
               },
@@ -130,7 +148,7 @@ function DonutStat({ label, value }: { label: string; value: number }) {
           options={{ cutout: '75%', plugins: { legend: { display: false } } }}
         />
         <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">
-          {value}%
+          {normalizedValue}%
         </span>
       </div>
       <p className="mt-2 text-sm text-zinc-400">{label}</p>

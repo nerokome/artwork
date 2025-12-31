@@ -1,61 +1,58 @@
 'use client'
 
-import { Star, Heart, Eye, ArrowLeft } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { Eye, Heart, Star, ArrowLeft } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
-import { getMyArtworks } from '@/app/redux/store/uploadslice'
+import { fetchPublicPortfolio } from '@/app/redux/store/publicportfolioslice'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
 
-const Page = () => {
+export default function PublicPortfolioPage() {
   const dispatch = useDispatch<AppDispatch>()
-  const { myArtworks, loading } = useSelector((state: RootState) => state.artwork)
+  const { name } = useParams()
+  const { profile, artworks, loading, error } = useSelector(
+    (state: RootState) => state.publicPortfolio
+  )
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   useEffect(() => {
-    dispatch(getMyArtworks())
-  }, [dispatch])
+    if (!name) return
+    const nameString = Array.isArray(name) ? name.join(" ") : name
+    dispatch(fetchPublicPortfolio(nameString.replace(/-/g, " ")))
+  }, [dispatch, name])
 
-  // log the view
-  const handleArtworkView = (artworkId: string, url: string) => {
-    dispatch(logArtworkView(artworkId))
-    setSelectedImage(url) // 
+  const handleArtworkView = (artId: string, url: string) => {
+    dispatch(logArtworkView(artId)) // log the view in backend
+    setSelectedImage(url)           // open modal
   }
 
+  if (loading) return <p className="text-white p-6">Loading...</p>
+  if (error) return <p className="text-red-500 p-6">{error}</p>
+
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-black">
       {/* Background */}
-      <div
-        className="fixed inset-0 bg-cover bg-center -z-10"
-        style={{ backgroundImage: "url('/fotos.jpg')" }}
-      />
+      <div className="fixed inset-0 bg-cover bg-center -z-10" style={{ backgroundImage: "url('/fotos.jpg')" }} />
       <div className="fixed inset-0 bg-black/90 -z-10" />
 
-      <div className="relative">
+      <div className="relative px-4 sm:px-6 py-8 sm:py-10">
         {/* Header */}
-        <div className="relative rounded-b-2xl overflow-hidden">
-          <div className="relative flex flex-col items-center text-center py-12 sm:py-16 px-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
-              My Collection
-            </h1>
-            <p className="text-white text-sm sm:text-base md:text-lg max-w-xl">
-              Manage and showcase your collection of digital artworks with style.
-            </p>
-          </div>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight mb-3">
+            {profile?.name}'s Portfolio
+          </h1>
+          <p className="text-white text-sm sm:text-base md:text-lg max-w-xl mx-auto">
+            Explore the public artworks of {profile?.name}.
+          </p>
         </div>
 
-        {/* Loading / Empty states */}
-        {loading && <p className="text-center text-white py-6">Loading artworks...</p>}
-        {!loading && myArtworks.length === 0 && (
-          <p className="text-center text-white py-6">
-            You haven’t uploaded any artworks yet.
-          </p>
-        )}
-
         {/* Gallery */}
-        <div className="px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
-          {myArtworks.map((art) => (
+        {artworks.length === 0 && <p className="text-center text-white py-6">No public artworks found.</p>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
+          {artworks.map((art) => (
             <div
               key={art.id}
               className="group bg-neutral-900/70 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 cursor-pointer"
@@ -73,14 +70,10 @@ const Page = () => {
               </div>
 
               <div className="p-3 sm:p-4 space-y-2">
-                <h3 className="text-white text-sm sm:text-base font-semibold truncate">
-                  {art.title}
-                </h3>
-
+                <h3 className="text-white text-sm sm:text-base font-semibold truncate">{art.title}</h3>
                 <div className="flex items-center gap-3 text-white text-xs sm:text-sm">
                   <div className="flex items-center gap-1">
-                    <Eye size={14} className="text-cyan-400" />
-                    {art.views}
+                    <Eye size={14} className="text-cyan-400" /> {art.views || 0}
                   </div>
                   <div className="flex items-center gap-1 opacity-50">
                     <Heart size={14} /> 0
@@ -103,7 +96,6 @@ const Page = () => {
             >
               <ArrowLeft size={16} /> Back
             </button>
-
             <Image
               src={selectedImage}
               alt="Full artwork"
@@ -117,5 +109,3 @@ const Page = () => {
     </div>
   )
 }
-
-export default Page
