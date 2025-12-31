@@ -36,7 +36,6 @@ export default function PortfolioSettings() {
   return (
     <div className="min-h-screen p-6 bg-black">
       <div className="max-w-3xl mx-auto space-y-6">
-        {/* Portfolio Link */}
         <div className="bg-black/50 rounded-2xl p-4 flex items-center gap-3">
           <Globe className="text-cyan-400" />
           <span className="text-white truncate flex-1">{portfolioUrl}</span>
