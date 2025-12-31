@@ -5,16 +5,23 @@ import axios from 'axios'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
-// Types
-interface ArtworkOverview {
+// --------------------
+// Types (HARDENED)
+// --------------------
+export interface ArtworkOverview {
   _id: string
-  title?: string
-  views?: number
-  [key: string]: any
+  title: string
+  views: number
+}
+
+interface AnalyticsOverview {
+  totalViews: number
+  totalArtworks: number
+  totalEngagements: number
 }
 
 interface AnalyticsState {
-  overview: any | null
+  overview: AnalyticsOverview | null
   viewsOverTime: { _id: string; views: number }[]
   mostViewed: ArtworkOverview[]
   engagementSplit: { _id: string; views: number }[]
@@ -22,6 +29,9 @@ interface AnalyticsState {
   error: string | null
 }
 
+// --------------------
+// Initial State
+// --------------------
 const initialState: AnalyticsState = {
   overview: null,
   viewsOverTime: [],
@@ -31,12 +41,13 @@ const initialState: AnalyticsState = {
   error: null,
 }
 
-
+// --------------------
+// Thunks
+// --------------------
 export const fetchAnalyticsOverview = createAsyncThunk(
   'analytics/fetchOverview',
   async () => {
     const { data } = await axios.get(`${BASE_URL}/analytics/overview`)
-    if (typeof window !== 'undefined') localStorage.setItem('analyticsOverview', JSON.stringify(data))
     return data
   }
 )
@@ -45,7 +56,6 @@ export const fetchViewsOverTime = createAsyncThunk(
   'analytics/fetchViewsOverTime',
   async () => {
     const { data } = await axios.get(`${BASE_URL}/analytics/views-over-time`)
-    if (typeof window !== 'undefined') localStorage.setItem('viewsOverTime', JSON.stringify(data))
     return data
   }
 )
@@ -54,7 +64,6 @@ export const fetchMostViewedArtworks = createAsyncThunk(
   'analytics/fetchMostViewedArtworks',
   async () => {
     const { data } = await axios.get(`${BASE_URL}/analytics/most-viewed`)
-    if (typeof window !== 'undefined') localStorage.setItem('mostViewedArtworks', JSON.stringify(data))
     return data
   }
 )
@@ -63,60 +72,82 @@ export const fetchEngagementSplit = createAsyncThunk(
   'analytics/fetchEngagementSplit',
   async () => {
     const { data } = await axios.get(`${BASE_URL}/analytics/engagement-split`)
-    if (typeof window !== 'undefined') localStorage.setItem('engagementSplit', JSON.stringify(data))
     return data
   }
 )
 
 export const logArtworkView = createAsyncThunk<void, string>(
-  "analytics/logView",
+  'analytics/logView',
   async (artworkId) => {
-    try {
-      await axios.post(`${BASE_URL}/analytics/log-view/${artworkId}`, {}, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    } catch (err) {
-      console.error("Failed to log artwork view", err);
-    }
+    await axios.post(
+      `${BASE_URL}/analytics/log-view/${artworkId}`,
+      {},
+      { headers: { 'Content-Type': 'application/json' } }
+    )
   }
-);
+)
 
-
-// --- Slice ---
+// --------------------
+// Slice
+// --------------------
 const analyticsSlice = createSlice({
   name: 'analytics',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    
     builder
-      .addCase(logArtworkView.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(logArtworkView.fulfilled, (state) => { state.loading = false })
+
+      // Log view
+      .addCase(logArtworkView.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(logArtworkView.fulfilled, (state) => {
+        state.loading = false
+      })
       .addCase(logArtworkView.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message || 'Failed to log view'
       })
 
       // Overview
-      .addCase(fetchAnalyticsOverview.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(fetchAnalyticsOverview.fulfilled, (state, action: PayloadAction<any>) => { state.loading = false; state.overview = action.payload })
-      .addCase(fetchAnalyticsOverview.rejected, (state, action) => { state.loading = false; state.error = action.error.message || 'Failed to fetch overview' })
+      .addCase(fetchAnalyticsOverview.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(
+        fetchAnalyticsOverview.fulfilled,
+        (state, action: PayloadAction<AnalyticsOverview>) => {
+          state.loading = false
+          state.overview = action.payload
+        }
+      )
+      .addCase(fetchAnalyticsOverview.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message || 'Failed to fetch overview'
+      })
 
       // Views over time
-      .addCase(fetchViewsOverTime.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(fetchViewsOverTime.fulfilled, (state, action: PayloadAction<{ _id: string; views: number }[]>) => { state.loading = false; state.viewsOverTime = action.payload })
-      .addCase(fetchViewsOverTime.rejected, (state, action) => { state.loading = false; state.error = action.error.message || 'Failed to fetch views over time' })
+      .addCase(fetchViewsOverTime.fulfilled, (state, action) => {
+        state.viewsOverTime = action.payload
+        state.loading = false
+      })
 
-      // Most viewed
-      .addCase(fetchMostViewedArtworks.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(fetchMostViewedArtworks.fulfilled, (state, action: PayloadAction<ArtworkOverview[]>) => { state.loading = false; state.mostViewed = action.payload })
-      .addCase(fetchMostViewedArtworks.rejected, (state, action) => { state.loading = false; state.error = action.error.message || 'Failed to fetch most viewed artworks' })
+      // Most viewed artworks
+      .addCase(
+        fetchMostViewedArtworks.fulfilled,
+        (state, action: PayloadAction<ArtworkOverview[]>) => {
+          state.loading = false
+          state.mostViewed = action.payload
+        }
+      )
 
       // Engagement split
-      .addCase(fetchEngagementSplit.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(fetchEngagementSplit.fulfilled, (state, action: PayloadAction<{ _id: string; views: number }[]>) => { state.loading = false; state.engagementSplit = action.payload })
-      .addCase(fetchEngagementSplit.rejected, (state, action) => { state.loading = false; state.error = action.error.message || 'Failed to fetch engagement split' })
-  }
+      .addCase(fetchEngagementSplit.fulfilled, (state, action) => {
+        state.loading = false
+        state.engagementSplit = action.payload
+      })
+  },
 })
 
 export default analyticsSlice.reducer
