@@ -67,17 +67,23 @@ const Page = () => {
               onClick={() => handleArtworkView(art.id, art.url)}
               className="relative cursor-pointer group"
             >
-              <Image
-                src={art.url}
-                alt={art.title}
-                width={600}
-                height={400}
-                className="
-                  w-full h-52 object-cover
-                  transition-transform duration-300
-                  group-hover:scale-[1.03]
-                "
-              />
+             <Image
+  src={art.url}
+  alt={art.title}
+  width={600}
+  height={400}
+  loading="lazy"
+  decoding="async"
+  sizes="(max-width: 640px) 100vw,
+         (max-width: 1024px) 50vw,
+         25vw"
+  className="
+    w-full h-52 object-cover
+    transition-transform duration-300
+    group-hover:scale-[1.03]
+  "
+/>
+
               <div className="
                 absolute inset-0
                 bg-black/0 group-hover:bg-black/20
@@ -145,18 +151,21 @@ const Page = () => {
           </button>
 
           <Image
-            src={selectedImage}
-            alt="Artwork"
-            width={1200}
-            height={800}
-            className="
-              max-h-[85vh] max-w-full
-              object-contain
-              rounded-lg
-              shadow-2xl
-              animate-in zoom-in-95 duration-200
-            "
-          />
+  src={selectedImage}
+  alt="Artwork"
+  width={1200}
+  height={800}
+  loading="eager"
+  priority
+  className="
+    max-h-[85vh] max-w-full
+    object-contain
+    rounded-lg
+    shadow-2xl
+    animate-in zoom-in-95 duration-200
+  "
+/>
+
         </div>
       )}
     </div>
