@@ -87,17 +87,12 @@ export default function PublicPortfolioPage() {
               >
                 <div className="relative aspect-video sm:aspect-square overflow-hidden">
                   <Image
-  src={art.url}
-  alt={art.title}
-  fill
-  loading="lazy"
-  decoding="async"
-  sizes="(max-width: 640px) 100vw,
-         (max-width: 1024px) 50vw,
-         25vw"
-  className="object-cover group-hover:scale-110 transition-transform duration-500"
-/>
-
+                    src={art.url}
+                    alt={art.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
                 </div>
 
@@ -131,16 +126,14 @@ export default function PublicPortfolioPage() {
             </button>
 
             <div className="relative w-full h-full max-w-full sm:max-w-5xl max-h-[75vh] sm:max-h-[85vh] flex items-center justify-center">
-             <Image
-  src={selectedImage.url}
-  alt="Selected Artwork"
-  width={1200}
-  height={800}
-  loading="eager"
-  priority
-  className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
-/>
-
+              <Image
+                src={selectedImage.url}
+                alt="Selected Artwork"
+                width={1200}
+                height={800}
+                className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
+                priority
+              />
             </div>
           </div>
         )}
