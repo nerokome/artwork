@@ -5,6 +5,7 @@ import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
+
 export interface Artwork {
   id: string;
   title: string;
@@ -15,7 +16,7 @@ export interface Artwork {
 }
 
 interface PublicPortfolioState {
-  profile: { name: string; slug: string } | null;
+  profile: { name: string } | null;
   count: number;
   artworks: Artwork[];
   loading: boolean;
@@ -30,27 +31,27 @@ const initialState: PublicPortfolioState = {
   error: null,
 };
 
-// -----------------------------
-// Fetch public portfolio by slug
-// -----------------------------
+
 export const fetchPublicPortfolio = createAsyncThunk<
-  { profile: { name: string; slug: string }; count: number; artworks: Artwork[] },
+  { profile: { name: string }; count: number; artworks: Artwork[] },
   string,
   { rejectValue: { error: string } }
 >(
   "publicPortfolio/fetch",
-  async (slug, { rejectWithValue }) => {
+  async (name, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/portfolio/${slug}`);
+      const response = await axios.get(`${BASE_URL}/portfolio/${name}`);
       const data = response.data;
 
+     
       const normalizedArtworks = (data.artworks || []).map((art: any) => ({
+        
         id: art.id || art._id || art._id?.$oid || String(art._id),
         title: art.title,
         url: art.url,
         isPublic: art.isPublic,
         createdAt: art.createdAt,
-        views: art.views || 0,
+        views: art.views || 0
       }));
 
       return {
@@ -59,21 +60,20 @@ export const fetchPublicPortfolio = createAsyncThunk<
         artworks: normalizedArtworks,
       };
     } catch (err: any) {
+      
       const errorMessage = err.response?.data?.error || "Server error";
       return rejectWithValue({ error: errorMessage });
     }
   }
 );
 
-// -----------------------------
-// Slice
-// -----------------------------
 export const publicPortfolioSlice = createSlice({
   name: "publicPortfolio",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      
       .addCase(fetchPublicPortfolio.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -86,6 +86,7 @@ export const publicPortfolioSlice = createSlice({
       })
       .addCase(fetchPublicPortfolio.rejected, (state, action) => {
         state.loading = false;
+        
         state.error = action.payload?.error || "Unknown error";
       });
   },
