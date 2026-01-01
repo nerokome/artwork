@@ -109,9 +109,9 @@ const Page = () => {
                   onClick={(e) => handleDelete(e, art.id)}
                   className="
                     flex items-center gap-1
-                    text-cyan-400 text-sm
+                    text-red-400 text-sm
                     transition
-                    hover:text-cyan-300
+                    hover:text-red-200
                     active:scale-95
                   "
                 >

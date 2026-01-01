@@ -45,11 +45,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Header */}
-      <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-between px-4 py-6">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/rarrr.png" alt="Artfolio Logo" width={40} height={40} />
-          <span className="font-bold">Artfolio</span>
-        </Link>
+      <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-end px-4 py-6">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="p-2 rounded-md hover:bg-neutral-800 transition"
@@ -84,7 +80,7 @@ export default function Sidebar() {
             </ul>
           </nav>
 
-          {/* 🔥 Logout — Mobile only */}
+          {/* Logout */}
           <button
             onClick={handleLogout}
             className="mt-6 flex items-center gap-4 px-3 py-2 rounded-lg text-cyan-400 hover:bg-neutral-800 transition"
@@ -95,7 +91,7 @@ export default function Sidebar() {
         </aside>
       )}
 
-      
+      {/* Desktop Sidebar */}
       <aside
         className={`hidden md:flex h-screen bg-neutral-900 text-neutral-200 flex-col transition-all duration-300
         ${collapsed ? 'w-20' : 'w-64'}`}
