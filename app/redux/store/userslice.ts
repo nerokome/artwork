@@ -18,7 +18,7 @@ interface UserState {
   error: any;
 }
 
-// Read from localStorage safely
+
 const getStoredUser = (): User | null => {
   try {
     const stored = localStorage.getItem('user');

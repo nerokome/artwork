@@ -1,11 +1,11 @@
 'use client'
 
-import { Star, Heart, Eye, ArrowLeft } from 'lucide-react'
+import { Star, Heart, Eye, ArrowLeft, Trash2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
-import { getMyArtworks } from '@/app/redux/store/uploadslice'
+import { getMyArtworks, deleteArtwork } from '@/app/redux/store/uploadslice'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
 
 const Page = () => {
@@ -17,103 +17,148 @@ const Page = () => {
     dispatch(getMyArtworks())
   }, [dispatch])
 
-  // log the view
   const handleArtworkView = (artworkId: string, url: string) => {
     dispatch(logArtworkView(artworkId))
-    setSelectedImage(url) // 
+    setSelectedImage(url)
+  }
+
+  const handleDelete = (e: React.MouseEvent, artworkId: string) => {
+    e.stopPropagation()
+    if (!confirm('Delete this artwork permanently?')) return
+    dispatch(deleteArtwork(artworkId))
   }
 
   return (
     <div className="relative min-h-screen">
-      {/* Background */}
+      
       <div
         className="fixed inset-0 bg-cover bg-center -z-10"
         style={{ backgroundImage: "url('/fotos.jpg')" }}
       />
       <div className="fixed inset-0 bg-black/90 -z-10" />
 
-      <div className="relative">
-        {/* Header */}
-        <div className="relative rounded-b-2xl overflow-hidden">
-          <div className="relative flex flex-col items-center text-center py-12 sm:py-16 px-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
-              My Collection
-            </h1>
-            <p className="text-white text-sm sm:text-base md:text-lg max-w-xl">
-              Manage and showcase your collection of digital artworks with style.
-            </p>
-          </div>
-        </div>
+      <div className="text-center py-12 px-4">
+        <h1 className="text-3xl font-extrabold text-white tracking-tight">
+          My Collection
+        </h1>
+        <p className="text-white/70 mt-2">
+          Manage and control your uploaded artworks
+        </p>
+      </div>
 
-        {/* Loading / Empty states */}
-        {loading && <p className="text-center text-white py-6">Loading artworks...</p>}
-        {!loading && myArtworks.length === 0 && (
-          <p className="text-center text-white py-6">
-            You haven’t uploaded any artworks yet.
-          </p>
-        )}
+      {loading && (
+        <p className="text-center text-white/70">Loading artworks...</p>
+      )}
 
-        {/* Gallery */}
-        <div className="px-4 sm:px-6 py-8 sm:py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
-          {myArtworks.map((art) => (
+      
+      <div className="px-4 sm:px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {myArtworks.map((art) => (
+          <div
+            key={art.id}
+            className="
+              bg-neutral-900/80 rounded-xl overflow-hidden
+              transition-all duration-300
+              hover:-translate-y-1 hover:shadow-2xl
+              focus-within:ring-2 focus-within:ring-cyan-500/40
+            "
+          >
+          
             <div
-              key={art.id}
-              className="group bg-neutral-900/70 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 cursor-pointer"
               onClick={() => handleArtworkView(art.id, art.url)}
+              className="relative cursor-pointer group"
             >
-              <div className="relative">
-                <Image
-                  src={art.url}
-                  alt={art.title}
-                  width={600}
-                  height={400}
-                  className="w-full h-48 sm:h-52 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition" />
-              </div>
+              <Image
+                src={art.url}
+                alt={art.title}
+                width={600}
+                height={400}
+                className="
+                  w-full h-52 object-cover
+                  transition-transform duration-300
+                  group-hover:scale-[1.03]
+                "
+              />
+              <div className="
+                absolute inset-0
+                bg-black/0 group-hover:bg-black/20
+                transition-colors
+              " />
+            </div>
 
-              <div className="p-3 sm:p-4 space-y-2">
-                <h3 className="text-white text-sm sm:text-base font-semibold truncate">
-                  {art.title}
-                </h3>
+            
+            <div className="p-4 space-y-3">
+              <h3 className="text-white font-semibold truncate">
+                {art.title}
+              </h3>
 
-                <div className="flex items-center gap-3 text-white text-xs sm:text-sm">
-                  <div className="flex items-center gap-1">
-                    <Eye size={14} className="text-cyan-400" />
-                    {art.views}
-                  </div>
-                  <div className="flex items-center gap-1 opacity-50">
+              <div className="flex items-center justify-between text-sm text-cyan-400">
+                <div className="flex gap-3">
+                  <span className="flex items-center gap-1">
+                    <Eye size={14} /> {art.views}
+                  </span>
+                  <span className="flex items-center gap-1 opacity-50">
                     <Heart size={14} /> 0
-                  </div>
-                  <div className="flex items-center gap-1 opacity-50">
+                  </span>
+                  <span className="flex items-center gap-1 opacity-50">
                     <Star size={14} /> 0
-                  </div>
+                  </span>
                 </div>
+
+                
+                <button
+                  onClick={(e) => handleDelete(e, art.id)}
+                  className="
+                    flex items-center gap-1
+                    text-cyan-400 text-sm
+                    transition
+                    hover:text-cyan-300
+                    active:scale-95
+                  "
+                >
+                  <Trash2 size={14} />
+                  Delete
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Image Modal */}
-        {selectedImage && (
-          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 px-3 sm:px-6">
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 left-4 flex items-center gap-2 px-3 py-2 bg-neutral-800 text-white rounded-lg hover:bg-neutral-700 transition text-sm"
-            >
-              <ArrowLeft size={16} /> Back
-            </button>
-
-            <Image
-              src={selectedImage}
-              alt="Full artwork"
-              width={1200}
-              height={800}
-              className="max-h-[75vh] sm:max-h-[85vh] max-w-full rounded-lg shadow-lg border border-neutral-700 object-contain"
-            />
           </div>
-        )}
+        ))}
       </div>
+
+     
+      {selectedImage && (
+        <div className="
+          fixed inset-0 z-50
+          bg-black/90
+          flex items-center justify-center
+          animate-in fade-in duration-200
+        ">
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="
+              absolute top-4 left-4
+              flex items-center gap-2
+              text-white/80 hover:text-white
+              transition
+            "
+          >
+            <ArrowLeft size={18} /> Back
+          </button>
+
+          <Image
+            src={selectedImage}
+            alt="Artwork"
+            width={1200}
+            height={800}
+            className="
+              max-h-[85vh] max-w-full
+              object-contain
+              rounded-lg
+              shadow-2xl
+              animate-in zoom-in-95 duration-200
+            "
+          />
+        </div>
+      )}
     </div>
   )
 }

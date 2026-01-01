@@ -11,6 +11,7 @@ export default function Page() {
   const dispatch = useDispatch<AppDispatch>()
   const { loading } = useSelector((state: RootState) => state.artwork)
 
+  const [title, setTitle] = useState('') // <-- new state for title
   const [progress, setProgress] = useState(0)
   const [filesCount, setFilesCount] = useState(0)
   const [successMessage, setSuccessMessage] = useState('')
@@ -27,7 +28,7 @@ export default function Page() {
       try {
         await dispatch(
           uploadArtwork({
-            title: file.name,
+            title: title || file.name, // use user input or fallback to file name
             file,
           })
         ).unwrap()
@@ -39,6 +40,7 @@ export default function Page() {
     }
 
     setSuccessMessage('Artwork uploaded successfully!') 
+    setTitle('') // reset title after upload
   }
 
   return (
@@ -67,6 +69,15 @@ export default function Page() {
               <h2 className="text-white text-lg font-semibold mb-4">
                 Upload Your Creations
               </h2>
+
+              {/* Title input */}
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter artwork title"
+                className="w-full mb-4 p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:border-cyan-400"
+              />
 
               <div
                 className="border-2 border-dashed border-neutral-700 rounded-xl p-10

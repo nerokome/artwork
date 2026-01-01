@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userslice'
 import artworkReducer from './uploadslice'
 import analyticsReducer from './analysisslice'
-import publicPortfolioReducer from './publicportfolioslice' // import the new slice
+import publicPortfolioReducer from './publicportfolioslice' 
 
 export const store = configureStore({
   reducer: {
