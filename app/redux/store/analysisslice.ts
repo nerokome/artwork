@@ -27,14 +27,16 @@ export interface AnalyticsOverview {
 }
 
 export interface ViewsOverTime {
-  _id: string // YYYY-MM-DD
+  _id: string 
   views: number
 }
 
 export interface EngagementSplit {
-  _id: string // artworkId
+  _id: string
+  title: string
   views: number
 }
+
 
 interface AnalyticsState {
   overview: {
@@ -71,19 +73,13 @@ const initialState: AnalyticsState = {
   logView: { loading: false, error: null },
 }
 
-// --------------------
-// Helper
-// --------------------
+
 const getAuthHeader = () => {
   const token = localStorage.getItem('token') // adjust key if needed
   return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
-// --------------------
-// Thunks
-// --------------------
 
-// 1. Overview
 export const fetchAnalyticsOverview = createAsyncThunk<AnalyticsOverview>(
   'analytics/fetchOverview',
   async (_, { rejectWithValue }) => {
@@ -98,7 +94,7 @@ export const fetchAnalyticsOverview = createAsyncThunk<AnalyticsOverview>(
   }
 )
 
-// 2. Views Over Time
+
 export const fetchViewsOverTime = createAsyncThunk<ViewsOverTime[]>(
   'analytics/fetchViewsOverTime',
   async (_, { rejectWithValue }) => {
@@ -113,7 +109,7 @@ export const fetchViewsOverTime = createAsyncThunk<ViewsOverTime[]>(
   }
 )
 
-// 3. Most Viewed Artworks
+
 export const fetchMostViewedArtworks = createAsyncThunk<ArtworkOverview[]>(
   'analytics/fetchMostViewedArtworks',
   async (_, { rejectWithValue }) => {
@@ -128,7 +124,7 @@ export const fetchMostViewedArtworks = createAsyncThunk<ArtworkOverview[]>(
   }
 )
 
-// 4. Engagement Split
+
 export const fetchEngagementSplit = createAsyncThunk<EngagementSplit[]>(
   'analytics/fetchEngagementSplit',
   async (_, { rejectWithValue }) => {

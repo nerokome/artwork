@@ -20,6 +20,7 @@ import {
   fetchEngagementSplit,
   fetchMostViewedArtworks,
 } from '@/app/redux/store/analysisslice'
+import Image from 'next/image'
 
 ChartJS.register(
   CategoryScale,
@@ -73,9 +74,9 @@ export default function Dashboard() {
     maintainAspectRatio: false,
     scales: {
       y: {
-        min: 5,
-        max: 55,
-        ticks: { stepSize: 5 },
+        min: 10,
+        max: 120,
+        ticks: { stepSize: 10 },
       },
     },
   }
@@ -129,7 +130,7 @@ export default function Dashboard() {
                     const total = top3.reduce((acc, item) => acc + item.views, 0) || 1
                     return top3.map((item) => {
                       const percent = Math.round((item.views / total) * 100)
-                      return <DonutStat key={item._id} label={item._id} value={percent} />
+                      return <DonutStat key={item._id} label={item.title} value={percent} />
                     })
                   })()}
                 </div>
@@ -138,25 +139,36 @@ export default function Dashboard() {
 
             {/* Most Viewed Pieces (Top 3) */}
             <div className="lg:col-span-4 bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/5">
-              <h2 className="text-xl font-medium mb-6">Most Viewed Pieces (Top 3)</h2>
-              <div className="space-y-4">
-                {mostViewed.data.slice(0, 3).map((art) => (
-                  <div
-                    key={art.id}
-                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition"
-                  >
-                    <div className="w-16 h-12 bg-zinc-700 rounded-lg" />
-                    <div>
-                      <p className="text-sm font-semibold">{art.title}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+  <h2 className="text-xl font-medium mb-6">Most Viewed Pieces (Top 3)</h2>
+  <div className="space-y-4">
+    {mostViewed.data.slice(0, 3).map((art) => (
+      <div
+        key={art.id}
+        className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition cursor-pointer"
+      >
+        <div className="w-16 h-12 relative rounded-lg overflow-hidden bg-zinc-700">
+          {art.url ? (
+            <Image
+              src={art.url}
+              alt={art.title || 'Artwork'}
+              fill
+              className="object-cover"
+              sizes="64px"
+            />
+          ) : null}
+        </div>
+        <div>
+          <p className="text-sm font-semibold truncate">{art.title}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+          </div>  
         </div>
       </div>
     </div>
+       
   )
 }
 
