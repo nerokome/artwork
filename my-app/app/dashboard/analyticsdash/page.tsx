@@ -112,7 +112,7 @@ export default function Dashboard() {
           </div>
 
           {(viewsOverTime.loading || engagementSplit.loading || mostViewed.loading) && (
-            <p className="text-center text-zinc-400 animate-pulse">Synchronizing Data...</p>
+            <p className="text-center text-zinc-400 animate-pulse">Synchronizing Data..</p>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
