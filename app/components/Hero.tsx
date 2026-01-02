@@ -19,13 +19,7 @@ const Hero = () => {
         
         <div className="relative z-10 px-6 py-12 sm:p-20 text-center sm:text-left">
           
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-            </span>
-            Creative Engine v2.0
-          </div>
+          
 
           <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase italic">
             Artfolio: <br className="hidden sm:block" />
