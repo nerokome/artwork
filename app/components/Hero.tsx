@@ -23,7 +23,7 @@ const Hero = () => {
 
           <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase italic">
             Artfolio: <br className="hidden sm:block" />
-            Showcase <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Genius.</span>
+            Showcase <span className="bg-gradient-to-r from-cyan-400 to-cyan-400 bg-clip-text text-transparent">Genius.</span>
           </h2>
           
           <h3 className="mt-2 text-xl sm:text-2xl font-bold text-zinc-400 tracking-tight italic">
