@@ -44,13 +44,21 @@ const initialState: UserState = {
 };
 
 // THUNKS
+// THUNKS
 export const signupUser = createAsyncThunk<
   { user: User; token: string },
   { fullName: string; email: string; password: string },
   { rejectValue: any }
 >('user/signup', async ({ fullName, email, password }, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/signup`, { fullName, email, password });
+    // --- CLEAN DATA HERE ---
+    const cleanData = {
+      fullName: fullName.trim(),
+      email: email.trim().toLowerCase(),
+      password: password // Don't trim passwords (spaces can be intentional there)
+    };
+
+    const response = await axios.post(`${BASE_URL}/auth/signup`, cleanData);
     return response.data;
   } catch (err: any) {
     return rejectWithValue(err.response?.data || { message: 'Signup failed' });
@@ -63,7 +71,13 @@ export const loginUser = createAsyncThunk<
   { rejectValue: any }
 >('user/login', async ({ email, password }, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/login`, { email, password });
+    // --- CLEAN DATA HERE ---
+    const cleanData = {
+      email: email.trim().toLowerCase(),
+      password: password
+    };
+
+    const response = await axios.post(`${BASE_URL}/auth/login`, cleanData);
     return response.data;
   } catch (err: any) {
     return rejectWithValue(err.response?.data || { message: 'Login failed' });
