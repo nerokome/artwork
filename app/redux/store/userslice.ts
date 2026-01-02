@@ -71,7 +71,7 @@ export const loginUser = createAsyncThunk<
   { rejectValue: any }
 >('user/login', async ({ email, password }, { rejectWithValue }) => {
   try {
-    // --- CLEAN DATA HERE ---
+    
     const cleanData = {
       email: email.trim().toLowerCase(),
       password: password
@@ -90,14 +90,14 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
   return;
 });
 
-// SLICE
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // SIGNUP
+      
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.error = null;

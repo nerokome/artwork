@@ -30,9 +30,7 @@ const initialState: PublicPortfolioState = {
   error: null,
 };
 
-// -----------------------------
-// THUNK: Fetch Public Portfolio
-// -----------------------------
+
 export const fetchPublicPortfolio = createAsyncThunk<
   { profile: { name: string }; count: number; artworks: Artwork[] },
   string,
@@ -41,14 +39,13 @@ export const fetchPublicPortfolio = createAsyncThunk<
   "publicPortfolio/fetch",
   async (name, { rejectWithValue }) => {
     try {
-      // FIX: Trim the name before putting it in the URL.
-      // This prevents the browser from sending "name%20" to the server.
+      
       const cleanName = name.trim();
       
       const response = await axios.get(`${BASE_URL}/portfolio/${cleanName}`);
       const data = response.data;
 
-      // Normalize artwork IDs to handle different MongoDB formats
+     
       const normalizedArtworks = (data.artworks || []).map((art: any) => ({
         id: art.id || art._id || art._id?.$oid || String(art._id),
         title: art.title,
@@ -70,9 +67,7 @@ export const fetchPublicPortfolio = createAsyncThunk<
   }
 );
 
-// -----------------------------
-// SLICE
-// -----------------------------
+
 export const publicPortfolioSlice = createSlice({
   name: "publicPortfolio",
   initialState,

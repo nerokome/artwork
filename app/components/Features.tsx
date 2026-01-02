@@ -1,63 +1,91 @@
+"use client";
+
 import React from "react";
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaPalette, FaShieldAlt } from "react-icons/fa";
 import { FaChartSimple } from "react-icons/fa6";
 import { IoShareSocialSharp } from "react-icons/io5";
-import { FaUsers, FaPalette, FaShieldAlt } from "react-icons/fa";
+import { IconType } from "react-icons"; 
+
+interface FeatureItem {
+  title: string;
+  description: string;
+  icon: IconType; 
+  gridClass: string;
+}
 
 const Features = () => {
-  const features = [
+  const features: FeatureItem[] = [
     {
-      title: "Upload & Organize",
-      description: "Easily upload your work and keep everything structured in one place.",
-      icon: <FaCamera size={35} color="#67E8F9" />,
+      title: "Intelligence & Insights",
+      description: "Proprietary telemetry tracking views, engagement heatmaps, and audience growth with surgical precision.",
+      icon: FaChartSimple,
+      gridClass: "md:col-span-2",
     },
     {
-      title: "Analytics & Insights",
-      description: "Track views, engagement, and growth with powerful analytics tools.",
-      icon: <FaChartSimple size={35} color="#67E8F9" />,
+      title: "Cloud Archive",
+      description: "High-fidelity storage for your masterworks. Structured, secure, and ready for global delivery.",
+      icon: FaCamera,
+      gridClass: "md:col-span-1",
     },
     {
-      title: "Share & Connect",
-      description: "Showcase your portfolio and connect with a global creative community.",
-      icon: <IoShareSocialSharp size={35} color="#67E8F9" />,
-    },
-    
-    {
-      title: "Customization",
-      description: "Personalize your portfolio with themes, layouts, and unique branding.",
-      icon: <FaPalette size={35} color="#67E8F9" />,
+      title: "Social Distribution",
+      description: "One-click deployment to global creative networks and talent acquisition agencies.",
+      icon: IoShareSocialSharp,
+      gridClass: "md:col-span-1",
     },
     {
-      title: "Privacy & Security",
-      description: "Your work is safe with advanced privacy controls and secure storae.",
-      icon: <FaShieldAlt size={35} color="#67E8F9" />,
+      title: "Visual Branding",
+      description: "Aggressive customization. Tailor your interface to reflect your unique creative DNA.",
+      icon: FaPalette,
+      gridClass: "md:col-span-1",
+    },
+    {
+      title: "Encryption Standard",
+      description: "Military-grade privacy controls. Your intellectual property stays protected and under your control.",
+      icon: FaShieldAlt,
+      gridClass: "md:col-span-1",
     },
   ];
 
   return (
-    <section className="mx-auto mt-20 max-w-6xl ">
-      {/* Section Heading */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-white">
-          Powerful Features for Creators
+    <section className="mx-auto mt-24 mb-20 max-w-6xl px-4 sm:px-6">
+      <div className="mb-16">
+        <div className="flex items-center gap-3 mb-2">
+           <div className="h-[2px] w-8 bg-cyan-400"></div>
+           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">Core Capabilities</span>
+        </div>
+        <h2 className="text-4xl sm:text-5xl font-black text-white uppercase italic tracking-tighter">
+          Engineered for <span className="text-zinc-500">Impact.</span>
         </h2>
-        <p className="mt-2 text-gray-400 max-w-2xl mx-auto">
-          Everything you need to showcase, grow, and protect your creative journey.
+        <p className="mt-4 text-zinc-500 max-w-xl text-sm font-medium leading-relaxed">
+          The Artfolio suite provides the technical infrastructure required to scale your creative presence globally.
         </p>
       </div>
 
-      {/* Feature Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {features.map((f) => (
           <div
             key={f.title}
-            className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-lg p-8 text-center hover:border-cyan-400 hover:scale-105 transition transform duration-300"
+            className={`group relative overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/40 p-8 transition-all duration-500 hover:border-cyan-400/30 ${f.gridClass}`}
           >
-            <div className="flex items-center justify-center text-3xl mb-4">
-              {f.icon}
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-400/5 blur-3xl transition-opacity opacity-0 group-hover:opacity-100" />
+            
+            <div className="relative z-10">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-cyan-400 transition-all duration-500 group-hover:bg-cyan-400 group-hover:text-black shadow-inner shadow-white/5">
+             
+                <f.icon size={24} />
+              </div>
+              
+              <h3 className="text-lg font-black uppercase tracking-tighter text-white italic transition-colors group-hover:text-cyan-400">
+                {f.title}
+              </h3>
+              
+              <p className="mt-3 text-sm leading-relaxed text-zinc-500 font-medium group-hover:text-zinc-400 transition-colors">
+                {f.description}
+              </p>
             </div>
-            <h3 className="font-semibold text-sm sm:text-lg text-white">{f.title}</h3>
-            <p className="mt-2 text-sm text-gray-300">{f.description}</p>
+
+            <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-cyan-400 transition-all duration-700 group-hover:w-full" />
           </div>
         ))}
       </div>

@@ -1,88 +1,95 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { IoAnalytics } from "react-icons/io5";
-import { RiSlideshow3Fill } from "react-icons/ri";
-import { TbWorld } from "react-icons/tb";
+import { ArrowRight, BarChart3, Layout, Users } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative mx-auto mt-10 sm:mt-20 max-w-7xl px-4 sm:px-6">
-      {/* Decorative background glow */}
-      <div className="absolute -top-24 left-1/2 -z-10 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[120px]" />
-
+    <section className="relative mx-auto mt-6 sm:mt-10 max-w-6xl rounded-2xl p-[1px] animated-border overflow-hidden shadow-2xl">
       <div
-        className="group relative overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl transition-all duration-500 hover:border-cyan-500/30"
+        className="relative z-30 overflow-hidden rounded-2xl"
         style={{
           backgroundImage: "url('/fotos.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        {/* Dynamic Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-black/70 to-transparent" />
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-cyan-900/20" />
-
-        <div className="relative z-10 px-8 py-16 sm:p-24">
-          {/* Badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-medium tracking-wide text-cyan-400">
-            <Sparkles size={14} />
-            <span>Join 5,000+ Digital Artists</span>
+     
+        <div className="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-black via-black/80 to-transparent sm:to-black/20" />
+        
+        <div className="relative z-10 px-6 py-12 sm:p-20 text-center sm:text-left">
+          
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            Creative Engine v2.0
           </div>
 
-          <h1 className="max-w-3xl text-4xl font-black tracking-tight text-white sm:text-7xl">
-            Showcase Your <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Genius.</span>
-            <br />
-            Track Your Legacy.
-          </h1>
+          <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase italic">
+            Artfolio: <br className="hidden sm:block" />
+            Showcase <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Genius.</span>
+          </h2>
+          
+          <h3 className="mt-2 text-xl sm:text-2xl font-bold text-zinc-400 tracking-tight italic">
+            Track Your Legacy
+          </h3>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
-            The premium portfolio & real-time analytics engine built specifically for the next generation of 
-            <span className="text-white"> digital creators</span>.
+          <p className="mt-6 mx-auto sm:mx-0 max-w-md sm:max-w-xl text-sm sm:text-base text-zinc-400 font-medium leading-relaxed animate-slideUp">
+            The premium portfolio & real-time telemetry engine built specifically 
+            for the next generation of digital creators and visual architects.
           </p>
 
-          {/* Action Buttons */}
-          <div className="mt-10 flex flex-col items-center gap-5 sm:flex-row">
-            <Link href="/auth/signup" className="group/btn relative w-full sm:w-auto">
-              <button className="relative w-full overflow-hidden rounded-full bg-cyan-400 px-8 py-4 font-bold text-black transition-all hover:scale-105 hover:bg-cyan-300 active:scale-95">
-                <span className="flex items-center justify-center gap-2">
-                  Start Your Journey <ArrowRight size={20} className="transition-transform group-hover/btn:translate-x-1" />
-                </span>
-              </button>
-            </Link>
+          
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
+            <button className="group w-full sm:w-auto rounded-xl bg-cyan-400 px-8 py-4 text-black font-black uppercase tracking-widest text-xs hover:bg-cyan-300 transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20">
+              Launch Portfolio <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
 
-            <button className="w-full rounded-full border border-white/20 bg-white/5 px-8 py-4 font-semibold text-white backdrop-blur-md transition hover:bg-white/10 sm:w-auto">
-             Learn More
+            <button className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all active:scale-95">
+              Learn More
             </button>
           </div>
 
-          {/* Features Grid */}
-          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {[
-              { icon: <IoAnalytics size={28} />, title: "Live Analytics", desc: "Real-time engagement heatmaps and traffic sources." },
-              { icon: <RiSlideshow3Fill size={28} />, title: "Luxury Gallery", desc: "Ultra-fast, high-resolution immersive work displays." },
-              { icon: <TbWorld size={28} />, title: "Global Reach", desc: "Connect with agencies and collectors worldwide." }
-            ].map((feature, i) => (
-              <div 
-                key={i} 
-                className="group/card rounded-3xl border border-white/5 bg-white/[0.03] p-6 backdrop-blur-xl transition-all hover:-translate-y-2 hover:bg-white/[0.07] hover:border-cyan-500/20"
-              >
-                <div className="mb-4 inline-block rounded-xl bg-cyan-400/10 p-3 text-cyan-400 group-hover/card:scale-110 transition-transform">
-                  {feature.icon}
-                </div>
-                <h3 className="text-lg font-bold text-white">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
+          
+          <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 text-zinc-200">
+            <FeatureCard 
+                icon={<BarChart3 size={18} />} 
+                title="Live Analytics" 
+                desc="Deep engagement heatmaps and traffic source intelligence." 
+            />
+            <FeatureCard 
+                icon={<Layout size={18} />} 
+                title="Showcase" 
+                desc="Immersive galleries designed for high-resolution impact." 
+            />
+            <FeatureCard 
+                icon={<Users size={18} />} 
+                title="Network" 
+                desc="Direct connection to global collectors and agencies." 
+            />
           </div>
         </div>
       </div>
     </section>
   );
 };
+
+function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
+    return (
+        <div className="p-5 rounded-2xl bg-black/40 backdrop-blur-xl border-t border-white/10 hover:border-cyan-500/30 transition-all group">
+            <div className="text-cyan-400 mb-3 group-hover:scale-110 transition-transform origin-left">
+                {icon}
+            </div>
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white">
+                {title}
+            </h3>
+            <p className="text-[11px] leading-relaxed mt-2 text-zinc-500 font-medium">
+                {desc}
+            </p>
+        </div>
+    )
+}
 
 export default Hero;
