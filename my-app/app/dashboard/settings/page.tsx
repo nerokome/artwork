@@ -123,10 +123,9 @@ export default function PortfolioSettings() {
        
         <div className="flex items-center justify-between text-zinc-600 px-2">
            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Vercel Deployment Active</span>
+              
            </div>
-           <span className="text-[10px] font-bold uppercase tracking-widest">v2.0.4-stable</span>
+           
         </div>
 
       </div>
