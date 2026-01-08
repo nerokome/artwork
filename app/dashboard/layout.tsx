@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <body className="bg-neutral-900">
+    
       <div className="flex h-screen overflow-hidden">
         {/* Desktop Sidebar */}
         <div className="hidden md:block">
@@ -34,6 +34,6 @@ export default function RootLayout({
           </main>
         </div>
       </div>
-    </body>
+   
   )
 }

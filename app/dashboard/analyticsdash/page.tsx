@@ -47,8 +47,9 @@ export default function Dashboard() {
 
   const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
+  // Added optional chaining and fallback to prevent .find on null
   const viewsByDay = weekDays.map((day) => {
-    const match = viewsOverTime.data.find((v) => {
+    const match = (viewsOverTime?.data || []).find((v: any) => {
       const date = new Date(v._id)
       return date.toLocaleDateString('en-US', { weekday: 'long' }) === day
     })
@@ -111,16 +112,16 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {(viewsOverTime.loading || engagementSplit.loading || mostViewed.loading) && (
+          {(viewsOverTime?.loading || engagementSplit?.loading || mostViewed?.loading) && (
             <p className="text-center text-zinc-400 animate-pulse">Synchronizing Data..</p>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-           
+            
             <div className="lg:col-span-8 space-y-6">
               <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5 shadow-2xl">
                 <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500 mb-8 text-center sm:text-left">
-                   Traffic Volume 
+                    Traffic Volume 
                 </h2>
                 <div className="h-[500px] w-full">
                   <Line data={lineData} options={lineOptions} />
@@ -129,11 +130,12 @@ export default function Dashboard() {
 
               <div className="bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5 shadow-2xl">
                 <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500 mb-10 text-center sm:text-left">
-                   Engagement Split 
+                    Engagement Split 
                 </h2>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-12 sm:gap-16">
                   {(() => {
-                    const top3 = engagementSplit.data.slice(0, 3)
+                    // Fix: Added optional chaining and fallback array
+                    const top3 = (engagementSplit?.data || []).slice(0, 3)
                     const total = top3.reduce((acc, item) => acc + item.views, 0) || 1
                     return top3.map((item) => {
                       const percent = Math.round((item.views / total) * 100)
@@ -144,19 +146,18 @@ export default function Dashboard() {
               </div>
             </div>
 
-            
             <div className="lg:col-span-4 bg-black/60 backdrop-blur-md p-8 rounded-3xl border border-white/5 shadow-2xl h-fit">
               <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-500 mb-8">
                  Top Performing Pieces
               </h2>
               <div className="space-y-6">
-                {mostViewed.data.slice(0, 3).map((art, idx) => (
+                {/* Fix: Added optional chaining and fallback array */}
+                {(mostViewed?.data || []).slice(0, 3).map((art, idx) => (
                   <div
-                    key={art.id}
+                    key={art.id || idx}
                     className="flex items-center gap-5 p-4 rounded-2xl bg-white/5 hover:bg-cyan-400 group transition-all duration-500 cursor-pointer"
                   >
                     <div className="w-20 h-16 relative rounded-xl overflow-hidden bg-zinc-800 border border-white/5">
-                      
                       {art.url ? (
                         <Image
                           src={art.url}

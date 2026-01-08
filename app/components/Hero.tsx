@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ArrowRight, BarChart3, Layout, Users } from "lucide-react";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -14,13 +15,10 @@ const Hero = () => {
           backgroundPosition: "center",
         }}
       >
-     
         <div className="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-black via-black/80 to-transparent sm:to-black/20" />
         
         <div className="relative z-10 px-6 py-12 sm:p-20 text-center sm:text-left">
           
-          
-
           <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase italic">
             Artfolio: <br className="hidden sm:block" />
             Showcase <span className="bg-gradient-to-r from-cyan-400 to-cyan-400 bg-clip-text text-transparent">Genius.</span>
@@ -35,18 +33,20 @@ const Hero = () => {
             for the next generation of digital creators and visual architects.
           </p>
 
-          
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
-            <button className="group w-full sm:w-auto rounded-xl bg-cyan-400 px-8 py-4 text-black font-black uppercase tracking-widest text-xs hover:bg-cyan-300 transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20">
-              Launch Portfolio <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
+            <Link href="/auth/signup" className="w-full sm:w-auto">
+              <button className="group w-full sm:w-auto rounded-xl bg-cyan-400 px-8 py-4 text-black font-black uppercase tracking-widest text-xs hover:bg-cyan-300 transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20">
+                Launch Portfolio <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            </Link>
 
-            <button className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all active:scale-95">
-              Learn More
-            </button>
+            <Link href="/auth/signup" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all active:scale-95">
+                Learn More
+              </button>
+            </Link>
           </div>
 
-          
           <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 text-zinc-200">
             <FeatureCard 
                 icon={<BarChart3 size={18} />} 
@@ -83,7 +83,7 @@ function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: stri
                 {desc}
             </p>
         </div>
-    )
+    );
 }
 
 export default Hero;
