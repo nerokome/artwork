@@ -81,7 +81,7 @@ const Signup = () => {
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-cyan-400 transition-colors" size={18} />
                   <input 
                     type="text" name="fullName" value={formData.fullName} onChange={handleChange}
-                    placeholder="John Doe" 
+                    placeholder="Full Name" 
                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-11 py-3.5 text-white placeholder-slate-600 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all" 
                     required 
                   />
@@ -95,7 +95,7 @@ const Signup = () => {
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-cyan-400 transition-colors" size={18} />
                   <input 
                     type="email" name="email" value={formData.email} onChange={handleChange}
-                    placeholder="artist@artfolio.com" 
+                    placeholder="Email Address" 
                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-11 py-3.5 text-white placeholder-slate-600 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all" 
                     required 
                   />

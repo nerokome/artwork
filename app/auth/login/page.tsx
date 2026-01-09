@@ -84,7 +84,7 @@ const Login = () => {
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-cyan-400 transition-colors" size={18} />
                   <input 
                     type="email" name="email" value={formData.email} onChange={handleChange}
-                    placeholder="artist@artfolio.com" 
+                    placeholder="Email Address" 
                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-11 py-3.5 text-white placeholder-slate-600 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-all" 
                     required 
                   />
@@ -94,7 +94,7 @@ const Login = () => {
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center ml-1">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Password</label>
-                  <Link href="#" className="text-[10px] uppercase font-bold text-cyan-500 hover:text-cyan-300">Forgot?</Link>
+                  
                 </div>
                 <div className="relative group/input">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-cyan-400 transition-colors" size={18} />
