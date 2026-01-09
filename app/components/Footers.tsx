@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
+import {FaLinkedin, FaGithub } from "react-icons/fa";
+import { BsTwitterX } from "react-icons/bs";
 
 const Footers = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footers = () => {
         
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
           
-          {/* Brand Column */}
+         
           <div className="space-y-4 max-w-xs">
             <div className="flex flex-col">
               <span className="text-white font-black text-2xl uppercase tracking-tighter italic">
@@ -27,7 +28,7 @@ const Footers = () => {
             </p>
           </div>
 
-          {/* Navigation Columns */}
+          
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-20">
             <div className="space-y-4">
               <h4 className="text-[10px] font-black uppercase tracking-widest text-white">Platform</h4>
@@ -46,19 +47,19 @@ const Footers = () => {
               </ul>
             </div>
             
-            {/* Social Column */}
+         
             <div className="space-y-4 col-span-2 sm:col-span-1">
               <h4 className="text-[10px] font-black uppercase tracking-widest text-white">Connect</h4>
               <div className="flex gap-4">
-                <SocialLink href="#" icon={<FaTwitter size={16} />} />
-                <SocialLink href="#" icon={<FaInstagram size={16} />} />
-                <SocialLink href="#" icon={<FaGithub size={16} />} />
+                <SocialLink href="https://x.com/nerokome?s=21&t=9eD6yL3-XMpKGdHtbYi4TA" icon={<BsTwitterX  size={16} />} />
+                <SocialLink href="https://www.linkedin.com/in/oghenero-oghenekome-997360259?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" icon={<FaLinkedin size={16} />} />
+                <SocialLink href="https://github.com/nerokome" icon={<FaGithub size={16} />} />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">
