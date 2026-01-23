@@ -49,7 +49,7 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Header - Shorter height (py-2 instead of py-4) */}
+      
       <nav className="md:hidden fixed top-0 w-full z-[90] bg-black/80 backdrop-blur-xl border-b border-white/5 text-neutral-200 flex items-center justify-between px-6 py-2">
         <Image src="/rarrr.png" alt="Logo" width={80} height={32} className="opacity-90" />
         <button
@@ -73,7 +73,7 @@ export default function Sidebar() {
       <aside className={`fixed top-0 left-0 h-full z-[80] bg-[#0A0A0A] text-neutral-200 flex flex-col border-r border-white/5 transition-transform duration-500 ease-in-out md:hidden shadow-2xl ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       } w-72 pt-16`}>
-        <nav className="flex-1 px-4 mt-4">
+        <nav className="flex-1 px-4 mt-8">
           <ul className="space-y-3">
             {links.map(link => (
               <SidebarItem
@@ -95,12 +95,12 @@ export default function Sidebar() {
             className="flex w-full items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group"
           >
             <LogOut size={18} />
-            <span className="text-xs font-black uppercase tracking-[0.2em]">Logout</span>
+            <span className="text-xs font-black uppercase tracking-[0.2em]">Exit</span>
           </button>
         </div>
       </aside>
 
-      {/* Desktop Sidebar - Unchanged */}
+     
       <aside
         className={`hidden md:flex h-screen bg-[#090909] text-neutral-200 flex-col border-r border-white/5 transition-all duration-500 ease-in-out sticky top-0
         ${collapsed ? 'w-24' : 'w-72'}`}
