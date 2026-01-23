@@ -17,7 +17,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/app/redux/store/store'
-import { logoutUser } from '@/app/redux/store/userslice' // adjust path if needed
+import { logoutUser } from '@/app/redux/store/userslice'
 
 export default function Sidebar() {
   const pathname = usePathname()
@@ -30,132 +30,124 @@ export default function Sidebar() {
   const isActive = (path: string) => pathname === path
 
   const links = [
-    { href: '/dashboard', label: 'Portfolio', icon: <LayoutDashboard size={22} /> },
-    { href: '/dashboard/uploaddocs', label: 'Upload Docs', icon: <Upload size={22} /> },
-    { href: '/dashboard/analyticsdash', label: 'Analytics', icon: <BarChart size={22} /> },
-    { href: '/dashboard/settings', label: 'Settings', icon: <Settings size={22} /> },
+    { href: '/dashboard', label: 'Portfolio', icon: LayoutDashboard },
+    { href: '/dashboard/uploaddocs', label: 'Upload', icon: Upload },
+    { href: '/dashboard/analyticsdash', label: 'Analytics', icon: BarChart },
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
   ]
 
   const handleLogout = async () => {
     await dispatch(logoutUser())
     setMobileOpen(false)
-    router.replace('/') // hard redirect, no back navigation
+    router.replace('/')
   }
 
   return (
     <>
       {/* Mobile Header */}
-      <nav className="md:hidden bg-neutral-900 text-neutral-200 flex items-center justify-end px-4 py-6">
+      <header className="md:hidden fixed top-0 inset-x-0 z-40 bg-black/80 backdrop-blur border-b border-white/10 flex justify-between items-center px-4 py-4">
+        <Image src="/rarrr.png" alt="Artfolio" width={110} height={40} />
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2 rounded-md hover:bg-neutral-800 transition"
+          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition"
         >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
-      </nav>
+      </header>
 
       {/* Mobile Sidebar */}
       {mobileOpen && (
-        <aside className="fixed top-0 left-0 h-full w-1/2 z-50 bg-neutral-900 text-neutral-200 flex flex-col p-4 md:hidden shadow-lg">
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="self-end mb-4 p-2 rounded-md hover:bg-neutral-800"
-          >
-            <X size={24} />
-          </button>
-
-          <nav className="flex-1">
-            <ul className="space-y-6">
-              {links.map(link => (
-                <SidebarItem
-                  key={link.href}
-                  href={link.href}
-                  icon={link.icon}
-                  label={link.label}
-                  active={isActive(link.href)}
-                  collapsed={false}
-                  onClick={() => setMobileOpen(false)}
-                />
-              ))}
-            </ul>
+        <aside className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl p-6 md:hidden">
+          <nav className="mt-16 space-y-6">
+            {links.map(({ href, label, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition
+                ${isActive(href)
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white'
+                    : 'text-zinc-400 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                <Icon size={20} />
+                <span className="font-semibold">{label}</span>
+              </Link>
+            ))}
           </nav>
 
-          {/* Logout */}
           <button
             onClick={handleLogout}
-            className="mt-6 flex items-center gap-4 px-3 py-2 rounded-lg text-cyan-400 hover:bg-neutral-800 transition"
+            className="mt-10 flex items-center gap-3 text-red-400 hover:text-red-300 transition"
           >
-            <LogOut size={20} />
-            <span className="text-sm font-medium">Logout</span>
+            <LogOut size={18} />
+            Logout
           </button>
         </aside>
       )}
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden md:flex h-screen bg-neutral-900 text-neutral-200 flex-col transition-all duration-300
-        ${collapsed ? 'w-20' : 'w-64'}`}
+        className={`hidden md:flex fixed left-0 top-0 h-screen z-30
+        ${collapsed ? 'w-20' : 'w-64'}
+        bg-black/70 backdrop-blur-xl border-r border-white/10
+        transition-all duration-300`}
       >
-        <div className="flex items-center justify-between px-4 py-4 mt-2">
-          {!collapsed && (
-            <Link href="/">
-              <Image src="/rarrr.png" alt="Artfolio Logo" width={150} height={150} />
-            </Link>
-          )}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="p-1 rounded-md hover:bg-neutral-800 transition"
-          >
-            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-          </button>
-        </div>
+        <div className="flex flex-col w-full">
+          {/* Logo */}
+          <div className="flex items-center justify-between px-4 py-6">
+            {!collapsed && (
+              <Link href="/">
+                <Image src="/rarrr.png" alt="Artfolio" width={130} height={40} />
+              </Link>
+            )}
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition"
+            >
+              {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+            </button>
+          </div>
 
-        <nav className="flex-1 px-2">
-          <ul className="space-y-10 mt-8">
-            {links.map(link => (
-              <SidebarItem
-                key={link.href}
-                href={link.href}
-                icon={link.icon}
-                label={link.label}
-                active={isActive(link.href)}
-                collapsed={collapsed}
-              />
-            ))}
-          </ul>
-        </nav>
+          {/* Nav */}
+          <nav className="flex-1 px-3 mt-8 space-y-3">
+            {links.map(({ href, label, icon: Icon }) => {
+              const active = isActive(href)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all
+                  ${active
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white shadow-lg'
+                      : 'text-zinc-400 hover:bg-white/5 hover:text-white'
+                  }
+                  ${collapsed ? 'justify-center px-0' : ''}
+                  `}
+                >
+                  <Icon size={20} />
+                  {!collapsed && (
+                    <span className="font-semibold tracking-tight">{label}</span>
+                  )}
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* Footer */}
+          <div className="px-4 pb-6">
+            <button
+              onClick={handleLogout}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl
+              text-red-400 hover:bg-red-500/10 hover:text-red-300 transition
+              ${collapsed ? 'justify-center px-0' : ''}`}
+            >
+              <LogOut size={18} />
+              {!collapsed && <span className="font-semibold">Logout</span>}
+            </button>
+          </div>
+        </div>
       </aside>
     </>
-  )
-}
-
-function SidebarItem({
-  href,
-  icon,
-  label,
-  active,
-  collapsed,
-  onClick,
-}: {
-  href: string
-  icon: React.ReactNode
-  label: string
-  active: boolean
-  collapsed: boolean
-  onClick?: () => void
-}) {
-  return (
-    <li>
-      <Link
-        href={href}
-        onClick={onClick}
-        className={`flex items-center gap-5 px-3 py-2 rounded-lg transition-colors
-        ${active ? 'bg-neutral-800 font-semibold' : 'hover:bg-neutral-800'}
-        ${collapsed ? 'justify-center' : ''}`}
-      >
-        {icon}
-        {!collapsed && <span className="text-sm">{label}</span>}
-      </Link>
-    </li>
   )
 }
