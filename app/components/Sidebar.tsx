@@ -56,12 +56,12 @@ export default function Sidebar() {
           onClick={() => setMobileOpen(!mobileOpen)}
           className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-cyan-400/20 transition-colors"
         >
-          {/* Always visible toggle */}
+          
           {mobileOpen ? <X size={20} className="text-cyan-400" /> : <Menu size={20} />}
         </button>
       </nav>
 
-      {/* Mobile Backdrop */}
+      
       <div 
         className={`fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
           mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -69,11 +69,11 @@ export default function Sidebar() {
         onClick={() => setMobileOpen(false)}
       />
 
-      {/* Mobile Sidebar - Shorter top padding to match new header height */}
+      
       <aside className={`fixed top-0 left-0 h-full z-[80] bg-[#0A0A0A] text-neutral-200 flex flex-col border-r border-white/5 transition-transform duration-500 ease-in-out md:hidden shadow-2xl ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       } w-72 pt-16`}>
-        <nav className="flex-1 px-4 mt-8">
+        <nav className="flex-1 px-4 mt-12">
           <ul className="space-y-3">
             {links.map(link => (
               <SidebarItem
