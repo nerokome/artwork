@@ -23,7 +23,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full h-20 bg-neutral-900 flex items-center justify-between px-4 md:px-8 shadow-sm">
+    <header className="w-full h-20 bg-[#090909] flex items-center justify-between px-4 md:px-8 shadow-sm">
       
       <div className="flex items-center gap-2">
         <span className="text-lg text-neutral-200">Welcome,</span>

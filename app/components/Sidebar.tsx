@@ -28,7 +28,6 @@ export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
-  // Prevent hydration flicker
   useEffect(() => setMounted(true), [])
 
   const isActive = (path: string) => pathname === path
@@ -50,33 +49,31 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Header - Sleek Glass effect */}
-      <nav className="md:hidden fixed top-0 w-full z-[60] bg-black/60 backdrop-blur-xl border-b border-white/5 text-neutral-200 flex items-center justify-between px-6 py-4">
-        <Image src="/rarrr.png" alt="Logo" width={100} height={40} className="opacity-90" />
+      {/* Mobile Header - Shorter height (py-2 instead of py-4) */}
+      <nav className="md:hidden fixed top-0 w-full z-[90] bg-black/80 backdrop-blur-xl border-b border-white/5 text-neutral-200 flex items-center justify-between px-6 py-2">
+        <Image src="/rarrr.png" alt="Logo" width={80} height={32} className="opacity-90" />
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-cyan-400/20 transition-colors"
         >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          {/* Always visible toggle */}
+          {mobileOpen ? <X size={20} className="text-cyan-400" /> : <Menu size={20} />}
         </button>
       </nav>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Backdrop */}
       <div 
-        className={`fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
           mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMobileOpen(false)}
       />
 
+      {/* Mobile Sidebar - Shorter top padding to match new header height */}
       <aside className={`fixed top-0 left-0 h-full z-[80] bg-[#0A0A0A] text-neutral-200 flex flex-col border-r border-white/5 transition-transform duration-500 ease-in-out md:hidden shadow-2xl ${
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
-      } w-72`}>
-        <div className="p-8">
-           <Image src="/rarrr.png" alt="Logo" width={130} height={45} />
-        </div>
-
-        <nav className="flex-1 px-4">
+      } w-72 pt-16`}>
+        <nav className="flex-1 px-4 mt-4">
           <ul className="space-y-3">
             {links.map(link => (
               <SidebarItem
@@ -97,13 +94,13 @@ export default function Sidebar() {
             onClick={handleLogout}
             className="flex w-full items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group"
           >
-            <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <LogOut size={18} />
             <span className="text-xs font-black uppercase tracking-[0.2em]">Logout</span>
           </button>
         </div>
       </aside>
 
-      {/* Desktop Sidebar - Premium Aesthetic */}
+      {/* Desktop Sidebar - Unchanged */}
       <aside
         className={`hidden md:flex h-screen bg-[#090909] text-neutral-200 flex-col border-r border-white/5 transition-all duration-500 ease-in-out sticky top-0
         ${collapsed ? 'w-24' : 'w-72'}`}
@@ -140,14 +137,13 @@ export default function Sidebar() {
           </ul>
         </nav>
 
-        {/* Desktop Logout - Styled to match high-end UI */}
         <div className="p-6 border-t border-white/5">
           <button
             onClick={handleLogout}
             className={`flex items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group ${collapsed ? 'justify-center' : ''}`}
           >
             <LogOut size={18} />
-            {!collapsed && <span className="text-xs font-black uppercase tracking-[0.2em]">Exit Terminal</span>}
+            {!collapsed && <span className="text-xs font-black uppercase tracking-[0.2em]">Exit</span>}
           </button>
         </div>
       </aside>
@@ -181,7 +177,6 @@ function SidebarItem({
           : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5'}
         ${collapsed ? 'justify-center' : ''}`}
       >
-        {/* Active Side Glow */}
         {active && (
           <div className="absolute left-0 w-1 h-6 bg-cyan-400 rounded-r-full shadow-[0_0_10px_#22d3ee]" />
         )}
@@ -196,7 +191,6 @@ function SidebarItem({
           </span>
         )}
 
-        {/* Floating Tooltip for collapsed state */}
         {collapsed && (
           <div className="absolute left-full ml-6 px-3 py-2 bg-zinc-900 text-cyan-400 text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all border border-white/10 z-[100] whitespace-nowrap translate-x-[-10px] group-hover:translate-x-0">
             {label}
