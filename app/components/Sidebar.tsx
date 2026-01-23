@@ -13,7 +13,7 @@ import {
   LogOut,
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/app/redux/store/store'
@@ -26,14 +26,18 @@ export default function Sidebar() {
 
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Prevent hydration flicker
+  useEffect(() => setMounted(true), [])
 
   const isActive = (path: string) => pathname === path
 
   const links = [
-    { href: '/dashboard', label: 'Portfolio', icon: LayoutDashboard },
-    { href: '/dashboard/uploaddocs', label: 'Upload', icon: Upload },
-    { href: '/dashboard/analyticsdash', label: 'Analytics', icon: BarChart },
-    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+    { href: '/dashboard', label: 'Portfolio', icon: <LayoutDashboard size={20} /> },
+    { href: '/dashboard/uploaddocs', label: 'Upload Docs', icon: <Upload size={20} /> },
+    { href: '/dashboard/analyticsdash', label: 'Analytics', icon: <BarChart size={20} /> },
+    { href: '/dashboard/settings', label: 'Settings', icon: <Settings size={20} /> },
   ]
 
   const handleLogout = async () => {
@@ -42,112 +46,163 @@ export default function Sidebar() {
     router.replace('/')
   }
 
+  if (!mounted) return null
+
   return (
     <>
-      {/* Mobile Header */}
-      <header className="md:hidden fixed top-0 inset-x-0 z-40 bg-black/80 backdrop-blur border-b border-white/10 flex justify-between items-center px-4 py-4">
-        <Image src="/rarrr.png" alt="Artfolio" width={110} height={40} />
+      {/* Mobile Header - Sleek Glass effect */}
+      <nav className="md:hidden fixed top-0 w-full z-[60] bg-black/60 backdrop-blur-xl border-b border-white/5 text-neutral-200 flex items-center justify-between px-6 py-4">
+        <Image src="/rarrr.png" alt="Logo" width={100} height={40} className="opacity-90" />
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition"
+          className="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-cyan-400/20 transition-colors"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
-      </header>
+      </nav>
 
-      {/* Mobile Sidebar */}
-      {mobileOpen && (
-        <aside className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl p-6 md:hidden">
-          <nav className="mt-16 space-y-6">
-            {links.map(({ href, label, icon: Icon }) => (
-              <Link
-                key={href}
-                href={href}
+      {/* Mobile Sidebar Overlay */}
+      <div 
+        className={`fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          mobileOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setMobileOpen(false)}
+      />
+
+      <aside className={`fixed top-0 left-0 h-full z-[80] bg-[#0A0A0A] text-neutral-200 flex flex-col border-r border-white/5 transition-transform duration-500 ease-in-out md:hidden shadow-2xl ${
+        mobileOpen ? 'translate-x-0' : '-translate-x-full'
+      } w-72`}>
+        <div className="p-8">
+           <Image src="/rarrr.png" alt="Logo" width={130} height={45} />
+        </div>
+
+        <nav className="flex-1 px-4">
+          <ul className="space-y-3">
+            {links.map(link => (
+              <SidebarItem
+                key={link.href}
+                href={link.href}
+                icon={link.icon}
+                label={link.label}
+                active={isActive(link.href)}
+                collapsed={false}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition
-                ${isActive(href)
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white'
-                    : 'text-zinc-400 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <Icon size={20} />
-                <span className="font-semibold">{label}</span>
-              </Link>
+              />
             ))}
-          </nav>
+          </ul>
+        </nav>
 
+        <div className="p-6 border-t border-white/5">
           <button
             onClick={handleLogout}
-            className="mt-10 flex items-center gap-3 text-red-400 hover:text-red-300 transition"
+            className="flex w-full items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group"
+          >
+            <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-xs font-black uppercase tracking-[0.2em]">Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Desktop Sidebar - Premium Aesthetic */}
+      <aside
+        className={`hidden md:flex h-screen bg-[#090909] text-neutral-200 flex-col border-r border-white/5 transition-all duration-500 ease-in-out sticky top-0
+        ${collapsed ? 'w-24' : 'w-72'}`}
+      >
+        <div className="flex items-center justify-between px-6 py-10">
+          {!collapsed && (
+            <Link href="/" className="transition-all hover:brightness-125">
+              <Image src="/rarrr.png" alt="Artfolio Logo" width={140} height={40} />
+            </Link>
+          )}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className={`p-2 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all ${collapsed ? 'mx-auto' : ''}`}
+          >
+            {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+          </button>
+        </div>
+
+        <nav className="flex-1 px-4">
+          <div className={`mb-6 px-4 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 transition-opacity ${collapsed ? 'opacity-0' : 'opacity-100'}`}>
+            System Menu
+          </div>
+          <ul className="space-y-2">
+            {links.map(link => (
+              <SidebarItem
+                key={link.href}
+                href={link.href}
+                icon={link.icon}
+                label={link.label}
+                active={isActive(link.href)}
+                collapsed={collapsed}
+              />
+            ))}
+          </ul>
+        </nav>
+
+        {/* Desktop Logout - Styled to match high-end UI */}
+        <div className="p-6 border-t border-white/5">
+          <button
+            onClick={handleLogout}
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group ${collapsed ? 'justify-center' : ''}`}
           >
             <LogOut size={18} />
-            Logout
+            {!collapsed && <span className="text-xs font-black uppercase tracking-[0.2em]">Exit Terminal</span>}
           </button>
-        </aside>
-      )}
-
-      {/* Desktop Sidebar */}
-      <aside
-        className={`hidden md:flex fixed left-0 top-0 h-screen z-30
-        ${collapsed ? 'w-20' : 'w-64'}
-        bg-black/70 backdrop-blur-xl border-r border-white/10
-        transition-all duration-300`}
-      >
-        <div className="flex flex-col w-full">
-          {/* Logo */}
-          <div className="flex items-center justify-between px-4 py-6">
-            {!collapsed && (
-              <Link href="/">
-                <Image src="/rarrr.png" alt="Artfolio" width={130} height={40} />
-              </Link>
-            )}
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition"
-            >
-              {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-            </button>
-          </div>
-
-          {/* Nav */}
-          <nav className="flex-1 px-3 mt-8 space-y-3">
-            {links.map(({ href, label, icon: Icon }) => {
-              const active = isActive(href)
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all
-                  ${active
-                      ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white shadow-lg'
-                      : 'text-zinc-400 hover:bg-white/5 hover:text-white'
-                  }
-                  ${collapsed ? 'justify-center px-0' : ''}
-                  `}
-                >
-                  <Icon size={20} />
-                  {!collapsed && (
-                    <span className="font-semibold tracking-tight">{label}</span>
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
-
-          {/* Footer */}
-          <div className="px-4 pb-6">
-            <button
-              onClick={handleLogout}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl
-              text-red-400 hover:bg-red-500/10 hover:text-red-300 transition
-              ${collapsed ? 'justify-center px-0' : ''}`}
-            >
-              <LogOut size={18} />
-              {!collapsed && <span className="font-semibold">Logout</span>}
-            </button>
-          </div>
         </div>
       </aside>
     </>
+  )
+}
+
+function SidebarItem({
+  href,
+  icon,
+  label,
+  active,
+  collapsed,
+  onClick,
+}: {
+  href: string
+  icon: React.ReactNode
+  label: string
+  active: boolean
+  collapsed: boolean
+  onClick?: () => void
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`relative group flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300
+        ${active 
+          ? 'bg-cyan-400/10 text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.03)]' 
+          : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5'}
+        ${collapsed ? 'justify-center' : ''}`}
+      >
+        {/* Active Side Glow */}
+        {active && (
+          <div className="absolute left-0 w-1 h-6 bg-cyan-400 rounded-r-full shadow-[0_0_10px_#22d3ee]" />
+        )}
+        
+        <div className={`${active ? 'scale-110' : 'group-hover:scale-110'} transition-transform duration-300`}>
+          {icon}
+        </div>
+        
+        {!collapsed && (
+          <span className="text-[11px] font-black uppercase tracking-[0.15em] leading-none">
+            {label}
+          </span>
+        )}
+
+        {/* Floating Tooltip for collapsed state */}
+        {collapsed && (
+          <div className="absolute left-full ml-6 px-3 py-2 bg-zinc-900 text-cyan-400 text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all border border-white/10 z-[100] whitespace-nowrap translate-x-[-10px] group-hover:translate-x-0">
+            {label}
+          </div>
+        )}
+      </Link>
+    </li>
   )
 }
