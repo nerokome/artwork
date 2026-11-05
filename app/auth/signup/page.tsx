@@ -7,9 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signupUser } from '@/app/redux/store/userslice';
 import { RootState, AppDispatch } from '@/app/redux/store/store';
 import { User, Mail, Lock, Loader2, ArrowLeft, UserPlus } from 'lucide-react';
+import ThemeToggle from '@/app/components/ThemeToggle';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Signup = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { loading, error } = useSelector((state: RootState) => state.user);
 
   const [formData, setFormData] = useState({
@@ -28,7 +32,10 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.agreed) return;
+    if (!formData.agreed) {
+      toast.error('Please accept the terms to continue.');
+      return;
+    }
 
     try {
       await dispatch(
@@ -38,25 +45,22 @@ const Signup = () => {
           password: formData.password,
         })
       ).unwrap();
-      window.location.href = '/dashboard';
+      toast.success('Your Artfolio account is ready.');
+      router.push('/dashboard');
     } catch (err) {
       console.error(err);
+      toast.error('Account creation failed. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 selection:bg-cyan-500/30">
-      {/* Background Decorative Glows */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-[-5%] left-[-5%] w-[35%] h-[35%] bg-cyan-600/10 blur-[100px] rounded-full" />
-        <div className="absolute bottom-[-5%] right-[-5%] w-[35%] h-[35%] bg-blue-600/10 blur-[100px] rounded-full" />
-      </div>
-
+    <div className="portfolio-background relative min-h-screen flex items-center justify-center p-4 selection:bg-cyan-500/30">
       {/* Navigation */}
       <Link href="/" className="fixed top-8 left-8 z-50 flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
         <span className="text-sm font-medium">Back to Home</span>
       </Link>
+      <div className="fixed right-8 top-6 z-50"><ThemeToggle /></div>
 
       <div className="w-full max-w-md">
         <div className="relative group">
@@ -69,7 +73,7 @@ const Signup = () => {
               <div className="p-4 rounded-2xl bg-gradient-to-b from-white/10 to-transparent border border-white/10 mb-6 group-hover:scale-110 transition-transform duration-500">
                 <Image src="/rarrr.png" alt="Artfolio Logo" width={50} height={50} className="h-10 w-auto brightness-125" priority />
               </div>
-              <h1 className="text-3xl font-bold text-white tracking-tight">Join Artfolio</h1>
+              <h1 className="page-heading text-3xl font-bold text-white tracking-tight">Join Artfolio</h1>
               <p className="text-slate-400 mt-2 text-sm">The canvas for your digital legacy.</p>
             </div>
 
@@ -154,7 +158,7 @@ const Signup = () => {
 
               <button 
                 type="submit" 
-                disabled={loading || !formData.agreed} 
+                disabled={loading} 
                 className="group relative w-full py-4 rounded-2xl bg-cyan-500 text-black font-black text-sm uppercase tracking-widest overflow-hidden transition-all hover:bg-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] disabled:opacity-40 active:scale-[0.97]"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">

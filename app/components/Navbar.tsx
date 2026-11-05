@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -37,6 +38,7 @@ export function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden sm:flex items-center gap-6">
+          <ThemeToggle />
           <Link 
             href="/auth/login" 
             className="text-sm font-medium text-slate-300 transition hover:text-cyan-400"
@@ -52,13 +54,16 @@ export function Navbar() {
         </div>
 
         {/* Mobile Hamburger */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="sm:hidden text-cyan-400 p-2 hover:bg-white/5 rounded-lg transition"
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-3 sm:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(!open)}
+            className="text-cyan-400 p-2 hover:bg-white/5 rounded-lg transition"
+            aria-label="Toggle menu"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu (Animated Slide-Down) */}

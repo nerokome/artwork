@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
@@ -9,6 +9,7 @@ interface User {
   name: string;
   email: string;
   role: string;
+  avatarUrl?: string;
 }
 
 interface UserState {
@@ -90,11 +91,19 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
   return;
 });
 
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    updateLocalProfile: (
+      state,
+      action: PayloadAction<{ name: string; avatarUrl?: string }>
+    ) => {
+      if (!state.user) return;
+      state.user = { ...state.user, ...action.payload };
+      localStorage.setItem('user', JSON.stringify(state.user));
+    },
+  },
   extraReducers: (builder) => {
     builder
       
@@ -138,4 +147,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { updateLocalProfile } = userSlice.actions;
 export default userSlice.reducer;

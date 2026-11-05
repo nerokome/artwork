@@ -21,6 +21,7 @@ import {
   fetchMostViewedArtworks,
 } from '@/app/redux/store/analysisslice'
 import Image from 'next/image'
+import { useTheme } from '@/app/components/ThemeProvider'
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +35,9 @@ ChartJS.register(
 )
 
 export default function Dashboard() {
+  const { theme } = useTheme()
+  const chartTextColor = theme === 'light' ? '#52525b' : 'rgba(255,255,255,0.5)'
+  const chartGridColor = theme === 'light' ? 'rgba(24,24,27,0.12)' : 'rgba(255,255,255,0.05)'
   const dispatch = useDispatch<AppDispatch>()
   const { viewsOverTime, engagementSplit, mostViewed } = useSelector(
     (state: RootState) => state.analytics
@@ -80,11 +84,11 @@ export default function Dashboard() {
     scales: {
       y: {
         min: 0,
-        ticks: { stepSize: 20, color: 'rgba(255,255,255,0.5)' },
-        grid: { color: 'rgba(255,255,255,0.05)' }
+        ticks: { stepSize: 20, color: chartTextColor },
+        grid: { color: chartGridColor }
       },
       x: {
-        ticks: { color: 'rgba(255,255,255,0.5)' },
+        ticks: { color: chartTextColor },
         grid: { display: false }
       }
     },
@@ -93,18 +97,11 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div
-        className="relative rounded-2xl overflow-hidden"
-        style={{
-          backgroundImage: "url('/fotos.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="portfolio-background relative overflow-hidden rounded-2xl"
       >
-        <div className="absolute inset-0 bg-black/90 sm:bg-black/90" />
-
         <div className="relative z-10 p-6 sm:p-10">
           <div className="mb-8">
-            <h1 className="text-4xl font-black tracking-tighter uppercase italic mb-4">
+            <h1 className="page-heading text-4xl font-black tracking-tighter uppercase mb-4">
               Analytics <span className="text-cyan-400">Dashboard</span>
             </h1>
             <p className="text-zinc-400 max-w-xl text-sm font-medium uppercase tracking-widest">

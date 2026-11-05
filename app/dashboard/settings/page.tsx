@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/app/redux/store/store'
 import { Copy, Check, Globe, Shield, Zap, ExternalLink, Search } from 'lucide-react'
 import { useState, useMemo } from 'react'
+import { toast } from 'sonner'
 
 export default function PortfolioSettings() {
   const { user } = useSelector((state: RootState) => state.user)
@@ -21,30 +22,27 @@ export default function PortfolioSettings() {
   }, [user?.name, baseUrl])
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(portfolioUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await navigator.clipboard.writeText(portfolioUrl)
+      setCopied(true)
+      toast.success('Portfolio link copied.')
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error('Could not copy the portfolio link.')
+    }
   }
 
   return (
     <div className="min-h-screen bg-black text-white">
      
       <div
-        className="relative rounded-2xl overflow-hidden"
-        style={{
-          backgroundImage: "url('/fotos.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="portfolio-background relative overflow-hidden rounded-2xl"
       >
-        <div className="absolute inset-0 bg-black/90" />
-
-        
         <div className="relative z-10 px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-3xl space-y-8">
             
             <div className="mb-10">
-              <h1 className="text-4xl font-black tracking-tighter uppercase italic">
+              <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">
                 Portfolio <span className="text-cyan-400">Gateway</span>
               </h1>
               <p className="text-zinc-500 text-xs font-bold uppercase tracking-[0.3em] mt-2">

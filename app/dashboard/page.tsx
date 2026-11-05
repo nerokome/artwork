@@ -1,12 +1,14 @@
 'use client'
 
-import { Star, Heart, Eye, ArrowLeft, Trash2, LayoutGrid } from 'lucide-react'
+import { ArrowLeft, Trash2, LayoutGrid } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { getMyArtworks, deleteArtwork } from '@/app/redux/store/uploadslice'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
+import { toast } from 'sonner'
+import ArtworkLikeButton from '@/app/components/ArtworkLikeButton'
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -22,10 +24,15 @@ const Page = () => {
     setSelectedImage(url)
   }
 
-  const handleDelete = (e: React.MouseEvent, artworkId: string) => {
+  const handleDelete = async (e: React.MouseEvent, artworkId: string) => {
     e.stopPropagation()
     if (!confirm('Permanently remove this piece from your collection?')) return
-    dispatch(deleteArtwork(artworkId))
+    try {
+      await dispatch(deleteArtwork(artworkId)).unwrap()
+      toast.success('Artwork deleted.')
+    } catch {
+      toast.error('Could not delete this artwork. Please try again.')
+    }
   }
 
   const shimmer = (w: number, h: number) => `
@@ -51,34 +58,26 @@ const Page = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* SAME BACKGROUND AS DASHBOARD */}
       <div
-        className="relative rounded-2xl overflow-hidden"
-        style={{
-          backgroundImage: "url('/fotos.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="portfolio-background relative overflow-hidden rounded-2xl text-white"
       >
-        <div className="absolute inset-0 bg-black/90" />
-
         {/* CONTENT */}
         <div className="relative z-10">
           {/* HEADER */}
-          <div className="max-w-7xl mx-auto pt-16 pb-8 px-6 flex flex-col sm:flex-row items-end justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
+          <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-6 pb-8 pt-16 text-center">
+            <div className="flex flex-col items-center">
+              <div className="mb-2 flex items-center justify-center gap-3">
                 <LayoutGrid className="text-cyan-400" size={24} />
-                <h1 className="text-4xl font-black tracking-tighter uppercase">
+                <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">
                   My <span className="text-cyan-400">Archives</span>
                 </h1>
               </div>
-              <p className="text-zinc-400 max-w-md">
+              <p className="max-w-md text-zinc-400">
                 Manage your digital assets and monitor public engagement.
               </p>
             </div>
 
-            <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-full hidden sm:block">
+            <div className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 sm:block">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
                 Total Assets:{' '}
                 <span className="text-white">{myArtworks.length}</span>
@@ -106,15 +105,15 @@ const Page = () => {
           )}
 
           {/* GRID */}
-          <div className="max-w-7xl mx-auto px-6 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {myArtworks.map((art) => (
               <div
                 key={art.id}
-                className="group bg-black/60 backdrop-blur-md rounded-3xl border border-white/5 overflow-hidden hover:border-cyan-400/30 transition-all"
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] text-left transition hover:border-white/25"
               >
                 <div
                   onClick={() => handleArtworkView(art.id, art.url)}
-                  className="relative aspect-[4/3] cursor-pointer"
+                  className="relative aspect-[4/5] cursor-pointer overflow-hidden"
                 >
                   <Image
                     src={art.url}
@@ -124,24 +123,22 @@ const Page = () => {
                     blurDataURL={`data:image/svg+xml;base64,${toBase64(
                       shimmer(700, 475)
                     )}`}
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="object-cover transition duration-500 group-hover:scale-105"
                   />
                 </div>
 
-                <div className="p-5">
-                  <h3 className="font-bold truncate mb-4">{art.title}</h3>
-
-                  <div className="flex justify-between items-center border-t border-white/5 pt-4">
-                    <div className="text-xs font-black text-cyan-400">
-                      {art.views} Views
-                    </div>
-
+                <div className="p-3 sm:p-4">
+                  <h3 className="truncate text-sm font-bold text-white sm:text-base">{art.title}</h3>
+                  <div className="mt-1 flex items-center justify-between">
+                    <p className="text-xs text-zinc-400">{art.views} views</p>
+                    <ArtworkLikeButton artworkId={art.id} />
                     <button
                       onClick={(e) => handleDelete(e, art.id)}
-                      className="flex items-center gap-2 text-zinc-500 hover:text-red-400 transition"
+                      aria-label={`Delete ${art.title}`}
+                      className="flex shrink-0 items-center gap-1 text-zinc-500 transition hover:text-red-400"
                     >
                       <Trash2 size={16} />
-                      <span className="text-[10px] uppercase font-black">
+                      <span className="hidden text-[10px] font-black uppercase sm:inline">
                         Delete
                       </span>
                     </button>

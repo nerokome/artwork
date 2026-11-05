@@ -8,18 +8,11 @@ const Hero = () => {
   return (
     <section className="relative mx-auto mt-6 sm:mt-10 max-w-6xl rounded-2xl p-[1px] animated-border overflow-hidden shadow-2xl">
       <div
-        className="relative z-30 overflow-hidden rounded-2xl"
-        style={{
-          backgroundImage: "url('/fotos.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        className="portfolio-background relative z-30 overflow-hidden rounded-2xl"
       >
-        <div className="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-black via-black/80 to-transparent sm:to-black/20" />
-        
         <div className="relative z-10 px-6 py-12 sm:p-20 text-center sm:text-left">
           
-          <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase italic">
+          <h2 className="page-heading text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase">
             Artfolio: <br className="hidden sm:block" />
             Showcase <span className="bg-gradient-to-r from-cyan-400 to-cyan-400 bg-clip-text text-transparent">Genius.</span>
           </h2>

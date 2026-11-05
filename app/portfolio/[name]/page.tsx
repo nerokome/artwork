@@ -2,18 +2,21 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Eye, Heart, Star, ArrowLeft, Layout, X } from 'lucide-react'
+import { ArrowLeft, Layout, X } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { fetchPublicPortfolio } from '@/app/redux/store/publicportfolioslice'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
+import ThemeToggle from '@/app/components/ThemeToggle'
+import ArtworkLikeButton from '@/app/components/ArtworkLikeButton'
 
 interface Artwork {
   id: string
   title: string
   url: string
   views?: number
+  likes?: number
 }
 
 export default function PublicPortfolioPage() {
@@ -27,7 +30,10 @@ export default function PublicPortfolioPage() {
   useEffect(() => {
     if (!name) return
     const nameString = Array.isArray(name) ? name.join(' ') : name
-    dispatch(fetchPublicPortfolio(nameString.replace(/-/g, ' ')))
+    const portfolioIdentifier = /^[a-f\d]{24}$/i.test(nameString)
+      ? nameString
+      : nameString.replace(/-/g, ' ')
+    dispatch(fetchPublicPortfolio(portfolioIdentifier))
   }, [dispatch, name])
 
   useEffect(() => {
@@ -59,7 +65,8 @@ export default function PublicPortfolioPage() {
 
   if (loading)
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-black">
+      <div className="portfolio-background relative flex flex-col items-center justify-center min-h-screen">
+        <div className="absolute right-6 top-5"><ThemeToggle /></div>
         <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-4" />
         <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Syncing Exhibit</p>
       </div>
@@ -67,7 +74,8 @@ export default function PublicPortfolioPage() {
 
   if (error)
     return (
-      <div className="flex items-center justify-center min-h-screen bg-black px-6">
+      <div className="portfolio-background relative flex items-center justify-center min-h-screen px-6">
+        <div className="absolute right-6 top-5"><ThemeToggle /></div>
         <div className="max-w-xs w-full bg-red-500/5 border border-red-500/20 p-6 rounded-2xl text-center">
           <p className="text-red-500 text-xs font-bold uppercase tracking-tight">{error}</p>
         </div>
@@ -75,13 +83,8 @@ export default function PublicPortfolioPage() {
     )
 
   return (
-    <div className="relative min-h-screen bg-black text-zinc-100 selection:bg-cyan-500/30">
-     
-      <div
-        className="fixed inset-0 bg-cover bg-center -z-10 scale-110 blur-md brightness-[0.2]"
-        style={{ backgroundImage: "url('/fotos.jpg')" }}
-      />
-      <div className="fixed inset-0 bg-black/80 -z-10" />
+    <div className="portfolio-background relative min-h-screen text-zinc-100 selection:bg-cyan-500/30">
+      <div className="absolute right-6 top-5 z-40"><ThemeToggle /></div>
 
       <div className="relative px-4 sm:px-6 py-10 lg:py-20 max-w-7xl mx-auto">
       
@@ -90,7 +93,7 @@ export default function PublicPortfolioPage() {
              <Layout size={12} className="text-cyan-400" />
              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400">Public Archive</span>
           </div>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4 uppercase italic break-words">
+          <h1 className="page-heading text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4 uppercase break-words">
             {profile?.name || 'Artist'}<span className="text-cyan-400">.</span>
           </h1>
           <p className="text-zinc-500 text-xs sm:text-sm font-medium max-w-md mx-auto leading-relaxed px-4">
@@ -131,9 +134,8 @@ export default function PublicPortfolioPage() {
                       <span className="text-cyan-400 font-black text-[11px] sm:text-xs">{art.views || 0}</span>
                       <span className="text-[8px] text-zinc-600 font-black uppercase tracking-widest">Views</span>
                     </div>
-                    <div className="flex flex-col opacity-30">
-                      <span className="text-white font-black text-[11px] sm:text-xs">0</span>
-                      <span className="text-[8px] text-zinc-600 font-black uppercase tracking-widest">Likes</span>
+                    <div onClick={(event) => event.stopPropagation()}>
+                      <ArtworkLikeButton artworkId={art.id} initialLikeCount={art.likes ?? 0} />
                     </div>
                   </div>
                 </div>

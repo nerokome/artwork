@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '@/app/redux/store/store'
 import { uploadArtwork } from '@/app/redux/store/uploadslice'
 import { UploadCloud, FileText, AlertCircle, CheckCircle2, ShieldCheck } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function Page() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -22,6 +23,8 @@ export default function Page() {
     setFilesCount(files.length)
     setProgress(0)
     setSuccessMessage('') 
+    let uploadedCount = 0
+    let failedCount = 0
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
@@ -32,33 +35,35 @@ export default function Page() {
             file,
           })
         ).unwrap()
+        uploadedCount += 1
         
         setProgress(Math.round(((i + 1) / files.length) * 100))
       } catch (err) {
         console.error('Upload failed:', err)
+        failedCount += 1
       }
     }
 
-    setSuccessMessage('Artwork uploaded successfully!') 
-    setTitle('')
+    if (uploadedCount > 0) {
+      setSuccessMessage(`${uploadedCount} artwork${uploadedCount === 1 ? '' : 's'} uploaded.`)
+      setTitle('')
+      toast.success(`${uploadedCount} artwork${uploadedCount === 1 ? '' : 's'} uploaded successfully.`)
+    }
+    if (failedCount > 0) {
+      toast.error(`${failedCount} artwork${failedCount === 1 ? '' : 's'} could not be uploaded.`)
+    }
   }
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div
-        className="relative rounded-2xl overflow-hidden min-h-[85vh]"
-        style={{
-          backgroundImage: "url('/fotos.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="portfolio-background relative min-h-[85vh] overflow-hidden rounded-2xl"
       >
-        <div className="absolute inset-0 bg-black/90 sm:bg-black/90" />
         <div className="relative z-10 p-6 sm:p-10">
           
         
           <div className="mb-10">
-            <h1 className="text-3xl text-zinc-200 font-bold mb-2 uppercase tracking-tighter">
+            <h1 className="page-heading text-3xl text-zinc-200 font-bold mb-2 uppercase tracking-tighter">
               Media <span className="text-cyan-400">Upload Studio</span>
             </h1>
             <div className="flex items-center gap-2">

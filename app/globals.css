@@ -1,5 +1,156 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: var(--font-lato);
+}
+
+:root {
+  --page-heading-color: #f4f4f5;
+}
+
+body {
+  font-family: var(--font-lato), sans-serif;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.page-heading,
+.page-heading * {
+  color: var(--page-heading-color) !important;
+  font-style: normal !important;
+  text-align: center !important;
+}
+
+.wallpaper {
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.portfolio-background {
+  --portfolio-base: #050505;
+  --portfolio-glow: rgb(255 255 255 / 5%);
+  --portfolio-lines: rgb(255 255 255 / 8%);
+  background-color: var(--portfolio-base);
+  background-image:
+    linear-gradient(var(--portfolio-lines) 1px, transparent 1px),
+    linear-gradient(90deg, var(--portfolio-lines) 1px, transparent 1px),
+    repeating-linear-gradient(135deg, transparent 0 34px, var(--portfolio-lines) 35px, transparent 36px 70px),
+    radial-gradient(ellipse at 50% 0%, var(--portfolio-glow), transparent 58%),
+    linear-gradient(145deg, #080808 0%, var(--portfolio-base) 58%, #0c0c0c 100%);
+  background-size: 56px 56px, 56px 56px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+html body * {
+  text-transform: none !important;
+  font-variant: normal !important;
+}
+
+html[data-theme='light'] body {
+  background-color: #f4f7fb;
+  color: #18181b;
+  color-scheme: light;
+}
+
+html[data-theme='light'] {
+  --page-heading-color: #18181b;
+}
+
+html[data-theme='light'] .portfolio-background {
+  --portfolio-base: #f4f7fb;
+  --portfolio-glow: rgb(0 0 0 / 5%);
+  --portfolio-lines: rgb(0 0 0 / 10%);
+  background-image:
+    linear-gradient(var(--portfolio-lines) 1px, transparent 1px),
+    linear-gradient(90deg, var(--portfolio-lines) 1px, transparent 1px),
+    repeating-linear-gradient(135deg, transparent 0 34px, var(--portfolio-lines) 35px, transparent 36px 70px),
+    radial-gradient(ellipse at 50% 0%, var(--portfolio-glow), transparent 58%),
+    linear-gradient(145deg, #fff 0%, var(--portfolio-base) 58%, #e9edf3 100%);
+  color: #18181b;
+}
+
+html[data-theme='dark'] body {
+  color-scheme: dark;
+}
+
+html[data-theme='light'] [class~='bg-black'],
+html[data-theme='light'] [class~='bg-gray-950'],
+html[data-theme='light'] [class~='bg-[#050505]'],
+html[data-theme='light'] [class~='bg-[#090909]'],
+html[data-theme='light'] [class~='bg-[#0A0A0A]'] {
+  background-color: #f4f7fb !important;
+}
+
+html[data-theme='light'] [class~='bg-black/98'] { background-color: rgb(255 255 255 / 98%) !important; }
+html[data-theme='light'] [class~='bg-black/95'] { background-color: rgb(255 255 255 / 95%) !important; }
+html[data-theme='light'] [class~='bg-black/90'] { background-color: rgb(255 255 255 / 90%) !important; }
+html[data-theme='light'] [class~='bg-black/80'] { background-color: rgb(255 255 255 / 84%) !important; }
+html[data-theme='light'] [class~='bg-black/60'] { background-color: rgb(255 255 255 / 84%) !important; }
+html[data-theme='light'] [class~='bg-black/50'] { background-color: rgb(255 255 255 / 78%) !important; }
+html[data-theme='light'] [class~='bg-black/40'] { background-color: rgb(255 255 255 / 65%) !important; }
+html[data-theme='light'] [class~='bg-black/10'] { background-color: rgb(24 24 27 / 8%) !important; }
+html[data-theme='light'] [class~='bg-zinc-900'],
+html[data-theme='light'] [class~='bg-zinc-900/40'] { background-color: #fff !important; }
+html[data-theme='light'] [class~='bg-zinc-800'],
+html[data-theme='light'] [class~='bg-neutral-800'] { background-color: #e4e4e7 !important; }
+html[data-theme='light'] [class~='bg-neutral-900/50'] { background-color: #f1f5f9 !important; }
+html[data-theme='light'] [class*='bg-white/'] { background-color: rgb(24 24 27 / 5%) !important; }
+
+html[data-theme='light'] [class~='text-white'],
+html[data-theme='light'] [class~='text-neutral-200'],
+html[data-theme='light'] [class~='text-zinc-100'],
+html[data-theme='light'] [class~='text-zinc-200'] { color: #18181b !important; }
+html[data-theme='light'] [class~='text-zinc-300'],
+html[data-theme='light'] [class~='text-zinc-400'],
+html[data-theme='light'] [class~='text-neutral-400'],
+html[data-theme='light'] [class~='text-neutral-500'],
+html[data-theme='light'] [class~='text-slate-300'],
+html[data-theme='light'] [class~='text-slate-400'] { color: #52525b !important; }
+html[data-theme='light'] [class~='text-zinc-500'],
+html[data-theme='light'] [class~='text-slate-500'] { color: #71717a !important; }
+html[data-theme='light'] [class~='text-zinc-600'],
+html[data-theme='light'] [class~='text-slate-600'] { color: #71717a !important; }
+html[data-theme='light'] [class~='text-cyan-400'],
+html[data-theme='light'] [class~='text-cyan-300'] { color: #0e7490 !important; }
+
+html[data-theme='light'] .page-heading,
+html[data-theme='light'] .page-heading * {
+  color: var(--page-heading-color) !important;
+}
+
+html[data-theme='light'] [class~='border-white/5'],
+html[data-theme='light'] [class~='border-white/10'],
+html[data-theme='light'] [class~='border-white/20'] { border-color: rgb(24 24 27 / 12%) !important; }
+html[data-theme='light'] [class~='border-neutral-700'],
+html[data-theme='light'] [class~='border-neutral-800'] { border-color: #d4d4d8 !important; }
+
+html[data-theme='light'] .artist-chat {
+  background-color: #fff !important;
+  border-color: #d4d4d8 !important;
+}
+
+html[data-theme='light'] .artist-chat > * {
+  background-color: #fff !important;
+  border-color: #e4e4e7 !important;
+}
+
+html[data-theme='light'] .artist-chat input:not([type='color']) {
+  background-color: #fff !important;
+  border-color: #d4d4d8 !important;
+}
+
+html[data-theme='light'] input,
+html[data-theme='light'] textarea,
+html[data-theme='light'] select {
+  color-scheme: light;
+}
+
+html[data-theme='light'] input::placeholder,
+html[data-theme='light'] textarea::placeholder {
+  color: #71717a !important;
+}
+
 .animated-border {
   position: relative;
   border-radius: 1rem;

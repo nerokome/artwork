@@ -3,6 +3,7 @@ import userReducer from './userslice'
 import artworkReducer from './uploadslice'
 import analyticsReducer from './analysisslice'
 import publicPortfolioReducer from './publicportfolioslice' 
+import messagingReducer from './messagingslice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     artwork: artworkReducer,
     analytics: analyticsReducer,
     publicPortfolio: publicPortfolioReducer, 
+    messaging: messagingReducer,
   },
 })
 
