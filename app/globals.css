@@ -13,6 +13,14 @@ body {
   transition: background-color 180ms ease, color 180ms ease;
 }
 
+.sidebar-muted {
+  color: #a1a1aa;
+}
+
+html[data-theme='light'] .sidebar-muted {
+  color: #18181b;
+}
+
 .page-heading,
 .page-heading * {
   color: var(--page-heading-color) !important;

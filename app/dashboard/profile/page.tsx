@@ -9,6 +9,7 @@ import { ArrowUpRight, ImagePlus, Mail, Save, ShieldCheck, UserRound, Users, Use
 import { toast } from 'sonner'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logoutUser, updateLocalProfile } from '@/app/redux/store/userslice'
+import DashboardBackLink from '@/app/components/DashboardBackLink'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024
@@ -214,9 +215,8 @@ export default function ProfilePage() {
       <div className="portfolio-background relative min-h-full overflow-hidden rounded-2xl">
         <main className="relative z-10 mx-auto w-full max-w-5xl px-5 py-12 sm:px-8 sm:py-16">
           <header className="mb-10 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">Account</p>
-            <h1 className="page-heading text-4xl font-black uppercase tracking-tight sm:text-5xl">Your Profile</h1>
-            <p className="mt-3 max-w-xl mx-auto text-sm leading-relaxed text-zinc-400">Your Artfolio account details and portfolio shortcuts.</p>
+            <DashboardBackLink />
+            <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Your Profile</h1>
           </header>
 
           {loading ? (
@@ -257,7 +257,7 @@ export default function ProfilePage() {
             </section>
 
             <section className="mx-auto mt-6 max-w-3xl rounded-3xl border border-white/10 bg-black/60 p-6 text-center backdrop-blur-md sm:p-9" aria-label="Edit profile">
-              <div className="mb-7"><h2 className="text-xl font-bold">Edit profile</h2><p className="mt-2 text-sm text-zinc-400">Update the name and picture shown on your account.</p></div>
+              <div className="mb-7"><h2 className="text-xl font-bold">Edit profile</h2></div>
               <div className="flex flex-col items-center gap-5">
                 <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-full border border-cyan-400/30 bg-cyan-400/10 text-3xl font-bold text-cyan-300">
                   {shownPicture ? <Image src={shownPicture} alt="Profile picture preview" width={128} height={128} unoptimized className="h-full w-full rounded-full object-cover" /> : initials || <UserRound size={30} />}

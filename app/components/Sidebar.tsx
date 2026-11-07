@@ -4,7 +4,7 @@ import Link from "next/link";
 import {
   LayoutDashboard,
   Upload,
-  BarChart,
+  ChartNoAxesCombined,
   UserRound,
   UsersRound,
   MessageCircle,
@@ -71,7 +71,7 @@ export default function Sidebar() {
     {
       href: "/dashboard/analyticsdash",
       label: "Analytics",
-      icon: <BarChart size={20} />,
+      icon: <ChartNoAxesCombined size={20} />,
     },
     {
       href: "/dashboard/messages",
@@ -178,7 +178,7 @@ export default function Sidebar() {
               aria-current={active ? "page" : undefined}
               title={link.label}
               className={`relative flex min-h-14 items-center justify-center transition-colors ${
-                active ? "text-cyan-400" : "text-zinc-500 hover:text-zinc-200"
+                active ? "text-cyan-400" : "sidebar-muted hover:text-cyan-400"
               }`}
             >
               {active && <span className="absolute top-0 h-0.5 w-8 rounded-full bg-cyan-400" />}
@@ -213,7 +213,7 @@ export default function Sidebar() {
 
         <nav className="flex-1 px-4">
           <div
-            className={`mb-6 px-4 text-sm  transition-opacity ${collapsed ? "opacity-0" : "opacity-100"}`}
+            className={`mb-6 px-4 text-sm sidebar-muted transition-opacity ${collapsed ? "opacity-0" : "opacity-100"}`}
           >
             System Menu
           </div>
@@ -235,7 +235,7 @@ export default function Sidebar() {
         <div className="p-6 border-t border-white/5">
           <button
             onClick={handleLogout}
-            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-zinc-500 hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group ${collapsed ? "justify-center" : ""}`}
+            className={`flex items-center gap-4 px-4 py-3 rounded-xl sidebar-muted hover:text-cyan-400 hover:bg-cyan-400/5 transition-all group ${collapsed ? "justify-center" : ""}`}
           >
             <LogOut size={18} />
             {!collapsed && <span className="text-sm">Exit</span>}
@@ -272,7 +272,7 @@ function SidebarItem({
         ${
           active
             ? "bg-cyan-400/10 text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.03)]"
-            : "text-zinc-500 hover:text-zinc-200 hover:bg-white/5"
+            : "sidebar-muted hover:text-cyan-400 hover:bg-white/5"
         }
         ${collapsed ? "justify-center" : ""}`}
       >

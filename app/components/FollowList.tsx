@@ -103,7 +103,7 @@ export default function FollowList({ type }: { type: 'followers' | 'following' }
         <Link href="/dashboard/profile" className="mb-8 inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white">
           <ArrowLeft size={16} /> Profile
         </Link>
-        <h1 className="page-heading mb-8 text-3xl font-black">{title}</h1>
+        <h1 className="page-heading mb-8 text-4xl font-black tracking-tighter uppercase">{title}</h1>
         {loading ? (
           <p role="status" className="py-12 text-center text-sm text-zinc-400">Loading {title.toLowerCase()}…</p>
         ) : error ? (

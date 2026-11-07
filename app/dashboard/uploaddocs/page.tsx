@@ -4,8 +4,9 @@ import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '@/app/redux/store/store'
 import { uploadArtwork } from '@/app/redux/store/uploadslice'
-import { UploadCloud, FileText, AlertCircle, CheckCircle2, ShieldCheck } from 'lucide-react'
+import { UploadCloud, FileText, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
+import DashboardBackLink from '@/app/components/DashboardBackLink'
 
 export default function Page() {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -63,15 +64,10 @@ export default function Page() {
           
         
           <div className="mb-10">
-            <h1 className="page-heading text-3xl text-zinc-200 font-bold mb-2 uppercase tracking-tighter">
+            <DashboardBackLink />
+            <h1 className="page-heading text-4xl font-black mb-2 uppercase tracking-tighter text-zinc-200">
               Media <span className="text-cyan-400">Upload Studio</span>
             </h1>
-            <div className="flex items-center gap-2">
-              <ShieldCheck size={14} className="text-cyan-400" />
-              <p className="text-zinc-400 text-xs font-semibold uppercase tracking-widest">
-                Portfolio Ingestion Active
-              </p>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">

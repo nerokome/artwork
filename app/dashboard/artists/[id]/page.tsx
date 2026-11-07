@@ -175,8 +175,7 @@ export default function ArtistPortfolioPage() {
                 )}
               </div>
               <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">Public portfolio</p>
-                <h1 className="page-heading text-3xl font-black tracking-tight text-white sm:text-4xl">
+                <h1 className="page-heading text-4xl font-black tracking-tighter uppercase text-white">
                   {portfolio.profile.name}
                 </h1>
                 <p className="mt-2 text-sm text-zinc-400">

@@ -5,6 +5,7 @@ import { Bell, CheckCheck, CircleCheck, Inbox, RefreshCw } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { fetchNotifications, markNotificationRead } from '@/app/redux/store/messagingslice'
+import DashboardBackLink from '@/app/components/DashboardBackLink'
 
 export default function NotificationsPage() {
   const dispatch = useDispatch<AppDispatch>()
@@ -47,12 +48,8 @@ export default function NotificationsPage() {
     <main className="portfolio-background min-h-full px-4 py-8 text-zinc-100 sm:px-8 sm:py-10">
       <div className="mx-auto max-w-4xl">
         <header className="mb-6">
-          <h1 className="page-heading text-3xl font-black uppercase tracking-tight sm:text-4xl">Notifications</h1>
-          <p className="mt-3 text-center text-sm text-zinc-400">
-            {unreadNotifications.length
-              ? `${unreadNotifications.length} unread notification${unreadNotifications.length === 1 ? '' : 's'}`
-              : 'You’re all caught up.'}
-          </p>
+          <DashboardBackLink />
+          <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Notifications</h1>
         </header>
 
         <div className="mb-5 flex flex-wrap justify-center gap-3">
@@ -87,7 +84,6 @@ export default function NotificationsPage() {
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-14 text-center">
             <Inbox size={32} className="mx-auto mb-3 text-zinc-500" />
             <h2 className="font-semibold text-white">No notifications yet</h2>
-            <p className="mt-2 text-sm text-zinc-400">New follows and messages will appear here.</p>
           </div>
         ) : (
           <ul className="space-y-3">
