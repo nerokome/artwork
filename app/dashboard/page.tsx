@@ -105,7 +105,7 @@ const Page = () => {
           )}
 
           {/* GRID */}
-          <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 px-3 pb-20 sm:gap-6 sm:px-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
             {myArtworks.map((art) => (
               <div
                 key={art.id}

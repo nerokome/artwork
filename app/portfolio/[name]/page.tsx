@@ -106,7 +106,7 @@ export default function PublicPortfolioPage() {
             <p className="text-zinc-600 font-bold uppercase tracking-widest text-xs">Archive Empty</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 sm:gap-6 lg:gap-8">
             {artworks.map((art: Artwork) => (
               <div
                 key={art.id}
@@ -122,7 +122,7 @@ export default function PublicPortfolioPage() {
                     loading="lazy"
                     placeholder="blur"
                     blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-70 group-hover:opacity-40 transition-opacity" />
                 </div>

@@ -179,7 +179,7 @@ export default function ArtistsPage() {
   }, [token])
 
   return (
-    <main className="portfolio-background min-h-screen px-5 py-12 text-zinc-100 sm:px-8 sm:py-16">
+    <main className="portfolio-background min-h-full w-full min-w-0 px-5 py-8 text-zinc-100 sm:px-8 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <Link
           href="/dashboard"
@@ -240,7 +240,7 @@ export default function ArtistsPage() {
             No artists found yet. Check back when more artists have joined.
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {artists.map((artist) => {
               const artistName = artist.name
               const artistId = artist.id || artist._id
