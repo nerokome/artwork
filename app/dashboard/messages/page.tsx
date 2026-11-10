@@ -92,14 +92,14 @@ export default function MessagesPage() {
   const selectedContact = contacts.find((contact) => contact.id === selectedId)
 
   return (
-    <main className="portfolio-background min-h-full px-2 py-2 text-zinc-100 sm:px-8 sm:py-10">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-3 sm:mb-6">
+    <main className="portfolio-background flex h-full min-h-0 flex-col px-2 py-2 text-zinc-100 sm:px-6 sm:py-5">
+      <div className="flex min-h-0 w-full flex-1 flex-col">
+        <header className="mb-3 shrink-0 sm:mb-4">
           <DashboardBackLink />
-          <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Messages</h1>
+          <h1 className="page-heading text-3xl font-black tracking-tighter uppercase sm:text-4xl">Messages</h1>
         </header>
 
-        <div className="grid h-[calc(100dvh-8.5rem)] min-h-[360px] grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-black/30 md:min-h-[65vh] md:grid-cols-[300px_minmax(0,1fr)] md:grid-rows-1">
+        <div className="grid min-h-[360px] flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-2xl backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">
           <section
             className={`min-h-0 flex-col border-b border-white/10 md:flex md:border-b-0 md:border-r ${
               selectedContact ? 'hidden' : 'flex'

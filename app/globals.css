@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme inline {
   --font-sans: var(--font-lato);
@@ -134,18 +135,72 @@ html[data-theme='light'] [class~='border-neutral-700'],
 html[data-theme='light'] [class~='border-neutral-800'] { border-color: #d4d4d8 !important; }
 
 html[data-theme='light'] .artist-chat {
-  background-color: #fff !important;
   border-color: #d4d4d8 !important;
+  backdrop-filter: blur(24px);
 }
 
 html[data-theme='light'] .artist-chat > * {
-  background-color: #fff !important;
+  background-color: rgb(255 255 255 / 18%) !important;
   border-color: #e4e4e7 !important;
+  backdrop-filter: blur(16px);
 }
 
 html[data-theme='light'] .artist-chat input:not([type='color']) {
-  background-color: #fff !important;
+  background-color: rgb(255 255 255 / 22%) !important;
   border-color: #d4d4d8 !important;
+  backdrop-filter: blur(12px);
+}
+
+.delete-confirmation {
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: rgb(9 9 9 / 95%);
+  color: #f4f4f5;
+  box-shadow: 0 25px 50px -12px rgb(8 47 73 / 30%);
+}
+
+.delete-confirmation-title,
+.delete-confirmation-artwork-name {
+  color: #f4f4f5;
+}
+
+.delete-confirmation-description {
+  color: #a1a1aa;
+}
+
+.delete-confirmation-cancel {
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: rgb(255 255 255 / 5%);
+  color: #e4e4e7;
+}
+
+.delete-confirmation-cancel:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+html[data-theme='light'] .delete-confirmation {
+  border-color: rgb(24 24 27 / 12%);
+  background: rgb(255 255 255 / 96%);
+  color: #18181b;
+  box-shadow: 0 25px 50px -12px rgb(8 47 73 / 18%);
+}
+
+html[data-theme='light'] .delete-confirmation-title,
+html[data-theme='light'] .delete-confirmation-artwork-name {
+  color: #18181b;
+}
+
+html[data-theme='light'] .delete-confirmation-description {
+  color: #52525b;
+}
+
+html[data-theme='light'] .delete-confirmation-cancel {
+  border-color: rgb(24 24 27 / 12%);
+  background: rgb(24 24 27 / 4%);
+  color: #27272a;
+}
+
+html[data-theme='light'] .delete-confirmation-cancel:hover {
+  background: rgb(24 24 27 / 8%);
 }
 
 html[data-theme='light'] input,

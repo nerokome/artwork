@@ -13,6 +13,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: 'Artfolio',
   description: '',
+  icons: {
+    icon: '/artfolio-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

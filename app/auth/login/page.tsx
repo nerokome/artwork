@@ -61,7 +61,7 @@ const Login = () => {
         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
         <span className="text-sm font-medium">Back to Home</span>
       </Link>
-      <div className="fixed right-8 top-6 z-50"><ThemeToggle /></div>
+      <div className="fixed right-8 top-6 z-50"><ThemeToggle showLabel /></div>
 
       <div className="w-full max-w-md">
         <div className="relative group">
@@ -132,7 +132,7 @@ const Login = () => {
                 <input 
                   type="checkbox" name="agreed" id="terms" 
                   checked={formData.agreed} onChange={handleChange}
-                  className="h-5 w-5 cursor-pointer appearance-none rounded-md border border-white/20 bg-white/5 checked:bg-cyan-500 checked:border-cyan-500 transition-all focus:ring-0" 
+                  className="h-5 w-5 shrink-0 cursor-pointer accent-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60"
                 />
                 <label htmlFor="terms" className="text-xs text-slate-400 cursor-pointer select-none">
                   I agree to the <span className="text-white hover:underline">Terms</span> and <span className="text-white hover:underline">Privacy Policy</span>

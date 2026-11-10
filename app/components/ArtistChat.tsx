@@ -24,9 +24,26 @@ interface ChatMessage {
 interface ChatColors {
   sent: string
   received: string
+  background?: string
 }
 
 const CHAT_COLORS_STORAGE_KEY = 'artfolio-chat-colors'
+
+function isHexColor(value: unknown): value is string {
+  return typeof value === 'string' && /^#[\da-f]{6}$/i.test(value)
+}
+
+function isChatColors(value: unknown): value is ChatColors {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'sent' in value &&
+    isHexColor(value.sent) &&
+    'received' in value &&
+    isHexColor(value.received) &&
+    (!('background' in value) || isHexColor(value.background))
+  )
+}
 
 function getWebSocketBaseUrl() {
   if (configuredWebSocketUrl) return configuredWebSocketUrl.replace(/\/+$/, '')
@@ -82,18 +99,7 @@ export default function ArtistChat({
       const savedColors = localStorage.getItem(CHAT_COLORS_STORAGE_KEY)
       if (!savedColors) return
       const parsedColors: unknown = JSON.parse(savedColors)
-      if (
-        typeof parsedColors === 'object' &&
-        parsedColors !== null &&
-        'sent' in parsedColors &&
-        'received' in parsedColors &&
-        typeof parsedColors.sent === 'string' &&
-        /^#[\da-f]{6}$/i.test(parsedColors.sent) &&
-        typeof parsedColors.received === 'string' &&
-        /^#[\da-f]{6}$/i.test(parsedColors.received)
-      ) {
-        setChatColors({ sent: parsedColors.sent, received: parsedColors.received })
-      }
+      if (isChatColors(parsedColors)) setChatColors(parsedColors)
     } catch {
       toast.error('Could not load saved chat colors.')
     }
@@ -242,7 +248,11 @@ export default function ArtistChat({
   }
 
   return (
-    <section className="artist-chat flex min-h-0 flex-1 flex-col overflow-hidden bg-black/20" aria-label={`Chat with ${artistName}`}>
+    <section
+      className="artist-chat flex min-h-0 flex-1 flex-col overflow-hidden bg-transparent backdrop-blur-xl"
+      style={{ backgroundColor: chatColors?.background }}
+      aria-label={`Chat with ${artistName}`}
+    >
       <header className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-white/10 px-3 py-3 sm:px-5 sm:py-4">
         <div className="flex min-w-0 items-center gap-2">
           {onBack && (
@@ -293,6 +303,15 @@ export default function ArtistChat({
               type="color"
               value={chatColors?.received ?? defaultChatColors.received}
               onChange={(event) => updateChatColor('received', event.target.value)}
+              className="h-8 w-10 cursor-pointer rounded border-0 bg-transparent"
+            />
+          </label>
+          <label className="flex items-center gap-2 text-xs text-zinc-300">
+            Chat page
+            <input
+              type="color"
+              value={chatColors?.background ?? (theme === 'light' ? '#ffffff' : '#18181b')}
+              onChange={(event) => updateChatColor('background', event.target.value)}
               className="h-8 w-10 cursor-pointer rounded border-0 bg-transparent"
             />
           </label>
