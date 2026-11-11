@@ -12,12 +12,15 @@ import { toast } from 'sonner'
 
 export default function Header() {
   const [mounted, setMounted] = useState(false) // Added logic
+  const [greeting, setGreeting] = useState('')
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
   const { user } = useSelector((state: RootState) => state.user)
 
   // Wait for the component to mount before showing dynamic user data
   useEffect(() => {
+    const hour = new Date().getHours()
+    setGreeting(hour < 12 ? 'Good morning,' : hour < 17 ? 'Good afternoon,' : 'Good evening,')
     setMounted(true)
   }, [])
 
@@ -52,8 +55,8 @@ export default function Header() {
           )}
         </div>
         <div className="flex min-w-0 items-center gap-2">
-          <span className="text-lg text-neutral-200">Welcome,</span>
-          <span className="truncate text-lg font-semibold text-cyan-400">
+          <span className="dashboard-header-greeting text-lg">{greeting}</span>
+          <span className="dashboard-header-greeting truncate text-lg font-semibold">
             {mounted ? user?.name : ''}
           </span>
         </div>

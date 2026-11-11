@@ -3,38 +3,48 @@
 import React from "react";
 import { ArrowRight, BarChart3, Layout, Users } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Hero = () => {
   return (
     <section className="relative mx-auto mt-6 sm:mt-10 max-w-6xl rounded-2xl p-[1px] animated-border overflow-hidden shadow-2xl">
       <div
-        className="portfolio-background relative z-30 overflow-hidden rounded-2xl"
+        className="relative z-30 overflow-hidden rounded-2xl"
       >
-        <div className="relative z-10 px-6 py-12 sm:p-20 text-center sm:text-left">
-          
-          <h2 className="page-heading text-4xl sm:text-6xl font-black leading-[1.1] tracking-tighter text-white animate-fadeIn uppercase">
+        <Image
+          src="/creative-community.jpg"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 1152px) 100vw, 1152px"
+          className="object-cover"
+        />
+        <div className="landing-hero-overlay absolute inset-0" />
+        <div className="relative z-10 px-6 py-12 text-center sm:p-20">
+
+          <h2 className="text-4xl sm:text-6xl font-black leading-[1.1] text-white animate-fadeIn">
             Artfolio: <br className="hidden sm:block" />
             Showcase <span className="bg-gradient-to-r from-cyan-400 to-cyan-400 bg-clip-text text-transparent">Genius.</span>
           </h2>
           
-          <h3 className="mt-2 text-xl sm:text-2xl font-bold text-zinc-400 tracking-tight italic">
+          <h3 className="landing-hero-tagline mt-2 text-xl sm:text-2xl font-bold italic">
             Track Your Legacy
           </h3>
 
-          <p className="mt-6 mx-auto sm:mx-0 max-w-md sm:max-w-xl text-sm sm:text-base text-zinc-400 font-medium leading-relaxed animate-slideUp">
+          <p className="mt-6 mx-auto max-w-md sm:max-w-xl text-sm sm:text-base text-zinc-200 font-medium leading-relaxed animate-slideUp">
             The premium portfolio & real-time telemetry engine built specifically 
             for the next generation of digital creators and visual architects.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth/signup" className="w-full sm:w-auto">
-              <button className="group w-full sm:w-auto rounded-xl bg-cyan-400 px-8 py-4 text-black font-black uppercase tracking-widest text-xs hover:bg-cyan-300 transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20">
+              <button className="group w-full sm:w-auto rounded-xl bg-cyan-400 px-8 py-4 text-black font-black hover:bg-cyan-300 transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20">
                 Launch Portfolio <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </Link>
 
             <Link href="/auth/signup" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all active:scale-95">
+              <button className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-4 text-white font-black hover:bg-white/10 transition-all active:scale-95">
                 Learn More
               </button>
             </Link>
@@ -69,7 +79,7 @@ function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: stri
             <div className="text-cyan-400 mb-3 group-hover:scale-110 transition-transform origin-left">
                 {icon}
             </div>
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white">
+            <h3 className="text-xs font-black text-white">
                 {title}
             </h3>
             <p className="text-[11px] leading-relaxed mt-2 text-zinc-500 font-medium">

@@ -22,7 +22,8 @@ import {
 } from '@/app/redux/store/analysisslice'
 import Image from 'next/image'
 import { useTheme } from '@/app/components/ThemeProvider'
-import DashboardBackLink from '@/app/components/DashboardBackLink'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { ChartNoAxesCombined } from 'lucide-react'
 
 ChartJS.register(
   CategoryScale,
@@ -102,10 +103,9 @@ export default function Dashboard() {
       >
         <div className="relative z-10 p-6 sm:p-10">
           <div className="mb-8">
-            <DashboardBackLink />
-            <h1 className="page-heading text-4xl font-black tracking-tighter uppercase mb-4">
+            <DashboardPageHeading icon={ChartNoAxesCombined} className="mb-4">
               Analytics <span className="text-cyan-400">Dashboard</span>
-            </h1>
+            </DashboardPageHeading>
           </div>
 
           {(viewsOverTime?.loading || engagementSplit?.loading || mostViewed?.loading) && (

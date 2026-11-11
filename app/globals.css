@@ -51,6 +51,40 @@ html[data-theme='light'] .sidebar-muted {
   background-attachment: fixed;
 }
 
+.landing-hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 38%) 0%,
+    rgb(0 0 0 / 46%) 52%,
+    rgb(0 0 0 / 72%) 100%
+  );
+}
+
+.landing-hero-tagline {
+  color: #e4e4e7;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 55%);
+}
+
+.dashboard-header-greeting {
+  color: #f4f4f5;
+}
+
+.network-status {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-bottom: 1px solid rgb(248 113 113 / 35%);
+  background: #450a0a;
+  padding: 0.65rem 1rem;
+  color: #fef2f2;
+  text-align: center;
+}
+
 html body * {
   text-transform: none !important;
   font-variant: normal !important;
@@ -77,6 +111,30 @@ html[data-theme='light'] .portfolio-background {
     radial-gradient(ellipse at 50% 0%, var(--portfolio-glow), transparent 58%),
     linear-gradient(145deg, #fff 0%, var(--portfolio-base) 58%, #e9edf3 100%);
   color: #18181b;
+}
+
+html[data-theme='light'] .landing-hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 32%) 0%,
+    rgb(255 255 255 / 38%) 52%,
+    rgb(255 255 255 / 68%) 100%
+  );
+}
+
+html[data-theme='light'] .landing-hero-tagline {
+  color: #27272a;
+  text-shadow: 0 1px 8px rgb(255 255 255 / 75%);
+}
+
+html[data-theme='light'] .dashboard-header-greeting {
+  color: #18181b;
+}
+
+html[data-theme='light'] .network-status {
+  border-bottom-color: #fecaca;
+  background: #fef2f2;
+  color: #7f1d1d;
 }
 
 html[data-theme='dark'] body {

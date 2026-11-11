@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
-import { ArrowLeft, UserRound } from 'lucide-react'
+import { ArrowLeft, UserRound, Users } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -103,7 +104,7 @@ export default function FollowList({ type }: { type: 'followers' | 'following' }
         <Link href="/dashboard/profile" className="mb-8 inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white">
           <ArrowLeft size={16} /> Profile
         </Link>
-        <h1 className="page-heading mb-8 text-4xl font-black tracking-tighter uppercase">{title}</h1>
+        <DashboardPageHeading icon={Users} className="mb-8">{title}</DashboardPageHeading>
         {loading ? (
           <p role="status" className="py-12 text-center text-sm text-zinc-400">Loading {title.toLowerCase()}…</p>
         ) : error ? (

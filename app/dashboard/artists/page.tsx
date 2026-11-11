@@ -4,9 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { ArrowLeft, ChevronLeft, ChevronRight, Eye, Heart, Image as ImageIcon, UserRound } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, Heart, Image as ImageIcon, UserRound, Users } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -181,15 +182,8 @@ export default function ArtistsPage() {
   return (
     <main className="portfolio-background min-h-full w-full min-w-0 px-5 py-8 text-zinc-100 sm:px-8 sm:py-16">
       <div className="mx-auto max-w-6xl">
-        <Link
-          href="/dashboard"
-          className="mb-10 inline-flex items-center gap-2 text-sm text-zinc-400 transition hover:text-white"
-        >
-          <ArrowLeft size={16} /> Home
-        </Link>
-
         <header className="mb-10">
-          <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Artist Directory</h1>
+          <DashboardPageHeading icon={Users}>Artist Directory</DashboardPageHeading>
         </header>
 
         <section aria-labelledby="popular-artworks-heading" className="mb-14">

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
 import ArtworkLikeButton from '@/app/components/ArtworkLikeButton'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -175,9 +176,9 @@ export default function ArtistPortfolioPage() {
                 )}
               </div>
               <div>
-                <h1 className="page-heading text-4xl font-black tracking-tighter uppercase text-white">
+                <DashboardPageHeading icon={UserRound}>
                   {portfolio.profile.name}
-                </h1>
+                </DashboardPageHeading>
                 <p className="mt-2 text-sm text-zinc-400">
                   {portfolio.count} {portfolio.count === 1 ? 'public artwork' : 'public artworks'}
                 </p>

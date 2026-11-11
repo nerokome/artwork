@@ -52,9 +52,9 @@ const Features = () => {
       <div className="mb-16">
         <div className="flex items-center gap-3 mb-2">
            <div className="h-[2px] w-8 bg-cyan-400"></div>
-           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">Core Capabilities</span>
+           <span className="text-[10px] font-black text-cyan-400">Core Capabilities</span>
         </div>
-        <h2 className="page-heading text-4xl sm:text-5xl font-black text-white uppercase tracking-tighter">
+        <h2 className="text-4xl sm:text-5xl font-black text-white">
           Engineered for <span className="text-zinc-500">Impact.</span>
         </h2>
         <p className="mt-4 text-zinc-500 max-w-xl text-sm font-medium leading-relaxed">
@@ -76,7 +76,7 @@ const Features = () => {
                 <f.icon size={24} />
               </div>
               
-              <h3 className="text-lg font-black uppercase tracking-tighter text-white italic transition-colors group-hover:text-cyan-400">
+              <h3 className="text-lg font-black text-white italic transition-colors group-hover:text-cyan-400">
                 {f.title}
               </h3>
               

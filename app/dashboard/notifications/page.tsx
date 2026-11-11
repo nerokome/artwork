@@ -5,7 +5,7 @@ import { Bell, CheckCheck, CircleCheck, Inbox, RefreshCw } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { fetchNotifications, markNotificationRead } from '@/app/redux/store/messagingslice'
-import DashboardBackLink from '@/app/components/DashboardBackLink'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 export default function NotificationsPage() {
   const dispatch = useDispatch<AppDispatch>()
@@ -48,8 +48,7 @@ export default function NotificationsPage() {
     <main className="portfolio-background min-h-full px-4 py-8 text-zinc-100 sm:px-8 sm:py-10">
       <div className="mx-auto max-w-4xl">
         <header className="mb-6">
-          <DashboardBackLink />
-          <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Notifications</h1>
+          <DashboardPageHeading icon={Bell}>Notifications</DashboardPageHeading>
         </header>
 
         <div className="mb-5 flex flex-wrap justify-center gap-3">

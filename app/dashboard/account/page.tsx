@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { RootState } from "@/app/redux/store/store";
-import DashboardBackLink from "@/app/components/DashboardBackLink";
+import DashboardPageHeading from "@/app/components/DashboardPageHeading";
 
 export default function AccountPage() {
   const user = useSelector((state: RootState) => state.user.user);
@@ -45,10 +45,7 @@ export default function AccountPage() {
     <main className="portfolio-background min-h-full px-4 py-8 text-white sm:px-8 sm:py-12">
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 sm:mb-10">
-          <DashboardBackLink />
-          <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">
-            Account
-          </h1>
+          <DashboardPageHeading icon={UserRound}>Account</DashboardPageHeading>
         </header>
 
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(260px,0.8fr)]">
@@ -139,7 +136,7 @@ export default function AccountPage() {
               </div>
               <dl className="space-y-4">
                 <div>
-                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-500">
+                  <dt className="text-[10px] font-bold text-zinc-500">
                     Display name
                   </dt>
                   <dd className="mt-1 break-words text-sm text-zinc-100">
@@ -147,7 +144,7 @@ export default function AccountPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-500">
+                  <dt className="text-[10px] font-bold text-zinc-500">
                     Email address
                   </dt>
                   <dd className="mt-1 break-all text-sm text-zinc-100">
@@ -155,7 +152,7 @@ export default function AccountPage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-500">
+                  <dt className="text-[10px] font-bold text-zinc-500">
                     Account type
                   </dt>
                   <dd className="mt-1 text-sm capitalize text-zinc-100">

@@ -7,7 +7,7 @@ import { MessageCircle, Search, UserRound } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
 import ArtistChat from '@/app/components/ArtistChat'
-import DashboardBackLink from '@/app/components/DashboardBackLink'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -95,8 +95,7 @@ export default function MessagesPage() {
     <main className="portfolio-background flex h-full min-h-0 flex-col px-2 py-2 text-zinc-100 sm:px-6 sm:py-5">
       <div className="flex min-h-0 w-full flex-1 flex-col">
         <header className="mb-3 shrink-0 sm:mb-4">
-          <DashboardBackLink />
-          <h1 className="page-heading text-3xl font-black tracking-tighter uppercase sm:text-4xl">Messages</h1>
+          <DashboardPageHeading icon={MessageCircle}>Messages</DashboardPageHeading>
         </header>
 
         <div className="grid min-h-[360px] flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-2xl backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">

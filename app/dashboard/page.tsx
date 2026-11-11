@@ -9,6 +9,7 @@ import { getMyArtworks, deleteArtwork } from '@/app/redux/store/uploadslice'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
 import { toast } from 'sonner'
 import ArtworkLikeButton from '@/app/components/ArtworkLikeButton'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -92,12 +93,9 @@ const Page = () => {
           {/* HEADER */}
           <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-6 pb-8 pt-16 text-center">
             <div className="flex flex-col items-center">
-              <div className="mb-2 flex items-center justify-center gap-3">
-                <LayoutGrid className="text-cyan-400" size={24} />
-                <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">
-                  My <span className="text-cyan-400">Archives</span>
-                </h1>
-              </div>
+              <DashboardPageHeading icon={LayoutGrid} className="mb-2">
+                My <span className="text-cyan-400">Archives</span>
+              </DashboardPageHeading>
               <p className="max-w-md text-zinc-400">
                 Manage your digital assets and monitor public engagement.
               </p>

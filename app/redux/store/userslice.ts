@@ -85,6 +85,39 @@ export const loginUser = createAsyncThunk<
   }
 });
 
+export const fetchCurrentProfile = createAsyncThunk<
+  { name?: string; avatarUrl?: string },
+  string,
+  { rejectValue: string }
+>('user/fetchCurrentProfile', async (token, { rejectWithValue }) => {
+  try {
+    const response = await axios.get<{
+      profile?: {
+        name?: string;
+        profilePictureUrl?: string;
+        avatarUrl?: string;
+      };
+    }>(`${BASE_URL}/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const profile = response.data.profile;
+    if (!profile) {
+      return rejectWithValue('The profile response was invalid.');
+    }
+
+    return {
+      ...(typeof profile.name === 'string' ? { name: profile.name } : {}),
+      avatarUrl: profile.profilePictureUrl || profile.avatarUrl || '',
+    };
+  } catch (err) {
+    return rejectWithValue(
+      axios.isAxiosError(err)
+        ? err.response?.data?.message || 'Could not load your profile picture.'
+        : 'Could not load your profile picture.'
+    );
+  }
+});
+
 export const logoutUser = createAsyncThunk('user/logout', async () => {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
@@ -97,7 +130,7 @@ const userSlice = createSlice({
   reducers: {
     updateLocalProfile: (
       state,
-      action: PayloadAction<{ name: string; avatarUrl?: string }>
+      action: PayloadAction<{ name?: string; avatarUrl?: string }>
     ) => {
       if (!state.user) return;
       state.user = { ...state.user, ...action.payload };
@@ -137,6 +170,11 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchCurrentProfile.fulfilled, (state, action) => {
+        if (!state.user) return;
+        state.user = { ...state.user, ...action.payload };
+        localStorage.setItem('user', JSON.stringify(state.user));
       })
       // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {

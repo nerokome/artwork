@@ -3,6 +3,7 @@ import { Lato } from 'next/font/google';
 import './globals.css';
 import { ReduxProvider } from './redux/store/ReduxProvider';
 import { ThemeProvider } from './components/ThemeProvider';
+import NetworkStatus from './components/NetworkStatus';
 
 const lato = Lato({
   variable: '--font-lato',
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${lato.variable} antialiased`}>
         <ThemeProvider>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <NetworkStatus />
+            {children}
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>

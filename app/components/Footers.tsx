@@ -16,10 +16,10 @@ const Footers = () => {
          
           <div className="space-y-4 max-w-xs">
             <div className="flex flex-col">
-              <span className="text-white font-black text-2xl uppercase tracking-tighter italic">
+              <span className="text-white font-black text-2xl italic">
                 Artfolio<span className="text-cyan-400">.</span>
               </span>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mt-1">
+              <p className="text-[10px] font-black text-zinc-600 mt-1">
                 Legacy Intelligence
               </p>
             </div>
@@ -31,7 +31,7 @@ const Footers = () => {
           
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-20">
             <div className="space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-white">Platform</h4>
+              <h4 className="text-[10px] font-black text-white">Platform</h4>
               <ul className="space-y-2 text-xs font-bold">
                 <li><a href="#" className="hover:text-cyan-400 transition-colors">Showcase</a></li>
                 <li><a href="#" className="hover:text-cyan-400 transition-colors">Analytics</a></li>
@@ -39,7 +39,7 @@ const Footers = () => {
               </ul>
             </div>
             <div className="space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-white">Company</h4>
+              <h4 className="text-[10px] font-black text-white">Company</h4>
               <ul className="space-y-2 text-xs font-bold">
                 <li><a href="#" className="hover:text-cyan-400 transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-cyan-400 transition-colors">Contact</a></li>
@@ -49,7 +49,7 @@ const Footers = () => {
             
          
             <div className="space-y-4 col-span-2 sm:col-span-1">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-white">Connect</h4>
+              <h4 className="text-[10px] font-black text-white">Connect</h4>
               <div className="flex gap-4">
                 <SocialLink href="https://x.com/nerokome?s=21&t=9eD6yL3-XMpKGdHtbYi4TA" icon={<BsTwitterX  size={16} />} />
                 <SocialLink href="https://www.linkedin.com/in/oghenero-oghenekome-997360259?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" icon={<FaLinkedin size={16} />} />
@@ -62,14 +62,14 @@ const Footers = () => {
         
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+            <span className="text-[10px] font-bold text-zinc-600">
               © {currentYear} Artfolio Console
             </span>
           </div>
           
           <div className="flex items-center gap-2">
             <span className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600">
+            <span className="text-[10px] font-black text-zinc-600">
               All Systems Operational
             </span>
           </div>

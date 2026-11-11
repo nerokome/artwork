@@ -4,9 +4,9 @@ import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, AppDispatch } from '@/app/redux/store/store'
 import { uploadArtwork } from '@/app/redux/store/uploadslice'
-import { UploadCloud, FileText, AlertCircle, CheckCircle2, Image as ImageIcon, X } from 'lucide-react'
+import { UploadCloud, FileText, AlertCircle, CheckCircle2, Image as ImageIcon, ImagePlus, X } from 'lucide-react'
 import { toast } from 'sonner'
-import DashboardBackLink from '@/app/components/DashboardBackLink'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp']
@@ -90,9 +90,8 @@ export default function Page() {
   return (
     <main className="portfolio-background min-h-full px-4 py-6 text-zinc-100 sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl">
-        <DashboardBackLink />
-        <header className="mb-8 mt-5 max-w-2xl">
-          <h1 className="page-heading text-3xl font-black tracking-tight sm:text-4xl">Add to your collection</h1>
+        <header className="mb-8 max-w-2xl">
+          <DashboardPageHeading icon={ImagePlus}>Add to your collection</DashboardPageHeading>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">

@@ -4,10 +4,11 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/redux/store/store'
 import Link from 'next/link'
-import { Copy, Check, Globe, ExternalLink, Palette, ArrowLeft, LockKeyhole } from 'lucide-react'
+import { Copy, Check, Globe, ExternalLink, Palette, ArrowLeft, LockKeyhole, Settings } from 'lucide-react'
 import { useState, useMemo, useEffect, type FormEvent } from 'react'
 import { toast } from 'sonner'
 import ThemeToggle from '@/app/components/ThemeToggle'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -106,9 +107,9 @@ export default function PortfolioSettings() {
               <Link href="/dashboard/account" className="mb-5 inline-flex items-center gap-2 text-sm text-zinc-400 transition hover:text-cyan-400">
                 <ArrowLeft size={16} /> Account
               </Link>
-              <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">
+              <DashboardPageHeading icon={Settings}>
                 Account <span className="text-cyan-400">Settings</span>
-              </h1>
+              </DashboardPageHeading>
             </div>
 
             <div className="relative group">

@@ -9,7 +9,7 @@ import { ArrowUpRight, ImagePlus, Mail, Save, ShieldCheck, UserRound, Users, Use
 import { toast } from 'sonner'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logoutUser, updateLocalProfile } from '@/app/redux/store/userslice'
-import DashboardBackLink from '@/app/components/DashboardBackLink'
+import DashboardPageHeading from '@/app/components/DashboardPageHeading'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024
@@ -215,8 +215,7 @@ export default function ProfilePage() {
       <div className="portfolio-background relative min-h-full overflow-hidden rounded-2xl">
         <main className="relative z-10 mx-auto w-full max-w-5xl px-5 py-12 sm:px-8 sm:py-16">
           <header className="mb-10 text-center">
-            <DashboardBackLink />
-            <h1 className="page-heading text-4xl font-black tracking-tighter uppercase">Your Profile</h1>
+            <DashboardPageHeading icon={UserRound}>Your Profile</DashboardPageHeading>
           </header>
 
           {loading ? (

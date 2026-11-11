@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import type { RootState, AppDispatch } from '@/app/redux/store/store';
-import { loginUser } from '@/app/redux/store/userslice';
+import { fetchCurrentProfile, loginUser } from '@/app/redux/store/userslice';
 import { Mail, Lock, Loader2, ArrowLeft, LogIn } from 'lucide-react';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import { toast } from 'sonner';
@@ -40,12 +40,21 @@ const Login = () => {
     }
 
     try {
-      await dispatch(
+      const { token } = await dispatch(
         loginUser({
           email: formData.email,
           password: formData.password,
         })
       ).unwrap();
+      try {
+        await dispatch(fetchCurrentProfile(token)).unwrap();
+      } catch (profileError) {
+        toast.error(
+          typeof profileError === 'string'
+            ? profileError
+            : 'Could not load your profile picture.'
+        );
+      }
       toast.success('You are now signed in.');
       router.push('/dashboard');
     } catch (err) {
