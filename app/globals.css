@@ -51,6 +51,22 @@ html[data-theme='light'] .sidebar-muted {
   background-attachment: fixed;
 }
 
+@media (max-width: 767px) {
+  .portfolio-background {
+    isolation: isolate;
+    position: relative;
+  }
+
+  .portfolio-background::before {
+    background: inherit;
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+  }
+}
+
 .landing-hero-overlay {
   background: linear-gradient(
     180deg,

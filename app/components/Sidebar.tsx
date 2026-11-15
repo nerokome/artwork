@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store/store";
 import { logoutUser } from "@/app/redux/store/userslice";
 import { clearNotifications, fetchNotifications } from "@/app/redux/store/messagingslice";
-import ThemeToggle from "./ThemeToggle";
 import { toast } from "sonner";
 
 export default function Sidebar() {
@@ -133,6 +132,18 @@ export default function Sidebar() {
         </Link>
         <div className="flex items-center gap-2">
           <Link
+            href="/dashboard/messages"
+            aria-label="Chat"
+            title="Chat"
+            className={`rounded-xl border p-2 transition-colors ${
+              isActive("/dashboard/messages")
+                ? "border-cyan-400/30 bg-cyan-400/10 text-cyan-400"
+                : "border-white/10 bg-white/5 text-neutral-200 hover:bg-cyan-400/20"
+            }`}
+          >
+            <MessageCircle size={20} />
+          </Link>
+          <Link
             href="/dashboard/notifications"
             aria-label={`Notifications${unreadNotifications > 0 ? `, ${unreadNotifications} unread` : ""}`}
             title="Notifications"
@@ -149,7 +160,6 @@ export default function Sidebar() {
               </span>
             )}
           </Link>
-          <ThemeToggle />
           <button
             onClick={handleLogout}
             className="rounded-xl border border-white/10 bg-white/5 p-2 text-zinc-400 transition-colors hover:bg-cyan-400/20 hover:text-cyan-400"
@@ -163,29 +173,40 @@ export default function Sidebar() {
 
       <nav
         aria-label="Dashboard navigation"
-        className="fixed bottom-0 left-0 right-0 z-[90] grid grid-cols-6 border-t border-white/10 bg-black/90 pb-[env(safe-area-inset-bottom)] text-neutral-200 backdrop-blur-xl md:hidden"
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-[90] flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] text-neutral-200 md:hidden"
       >
-        {links.slice(0, 6).map((link) => {
-          const active =
-            isActive(link.href) ||
-            (link.href === "/dashboard/account" &&
-              (isActive("/dashboard/profile") || isActive("/dashboard/settings")));
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-label={link.label}
-              aria-current={active ? "page" : undefined}
-              title={link.label}
-              className={`relative flex min-h-14 items-center justify-center transition-colors ${
-                active ? "text-cyan-400" : "sidebar-muted hover:text-cyan-400"
-              }`}
-            >
-              {active && <span className="absolute top-0 h-0.5 w-8 rounded-full bg-cyan-400" />}
-              {link.icon}
-            </Link>
-          );
-        })}
+        <div className="pointer-events-auto grid w-full max-w-lg grid-cols-5 rounded-full border border-white/10 bg-black/80 p-1.5 shadow-2xl backdrop-blur-xl">
+          {links
+            .filter((link) => link.href !== "/dashboard/messages")
+            .slice(0, 5)
+            .map((link) => {
+              const active =
+                isActive(link.href) ||
+                (link.href === "/dashboard/account" &&
+                  (isActive("/dashboard/profile") || isActive("/dashboard/settings")));
+              const label =
+                link.label === "Upload Docs"
+                  ? "Upload"
+                  : link.label === "Explore Artists"
+                    ? "Explore"
+                    : link.label;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-label={link.label}
+                  aria-current={active ? "page" : undefined}
+                  title={link.label}
+                  className={`relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-full px-1 transition-colors ${
+                    active ? "bg-white/10 text-cyan-300" : "sidebar-muted hover:text-cyan-400"
+                  }`}
+                >
+                  {link.icon}
+                  <span className="whitespace-nowrap text-[9px] leading-none">{label}</span>
+                </Link>
+              );
+            })}
+        </div>
       </nav>
 
       <aside
