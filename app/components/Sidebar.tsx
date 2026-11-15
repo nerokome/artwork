@@ -31,6 +31,11 @@ export default function Sidebar() {
   const unreadNotifications = useSelector(
     (state: RootState) => state.messaging.notifications.filter((notification) => !notification.isRead).length
   );
+  const unreadMessages = useSelector(
+    (state: RootState) => state.messaging.notifications.filter(
+      (notification) => notification.type === "message" && !notification.isRead
+    ).length
+  );
 
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -133,15 +138,20 @@ export default function Sidebar() {
         <div className="flex items-center gap-2">
           <Link
             href="/dashboard/messages"
-            aria-label="Chat"
+            aria-label={`Chat${unreadMessages > 0 ? `, ${unreadMessages} unread messages` : ""}`}
             title="Chat"
-            className={`rounded-xl border p-2 transition-colors ${
+            className={`relative rounded-xl border p-2 transition-colors ${
               isActive("/dashboard/messages")
                 ? "border-cyan-400/30 bg-cyan-400/10 text-cyan-400"
                 : "border-white/10 bg-white/5 text-neutral-200 hover:bg-cyan-400/20"
             }`}
           >
             <MessageCircle size={20} />
+            {unreadMessages > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-cyan-400 px-1 text-[9px] font-bold text-black">
+                {unreadMessages > 99 ? "99+" : unreadMessages}
+              </span>
+            )}
           </Link>
           <Link
             href="/dashboard/notifications"
