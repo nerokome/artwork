@@ -212,7 +212,7 @@ export default function ProfilePage() {
   const shownPicture = previewUrl || pictureUrl
 
   return (
-    <div className="font-sans min-h-full bg-black text-white">
+    <div className="font-sans min-h-full text-white">
       <div className="portfolio-background relative min-h-full overflow-hidden rounded-2xl">
         <main className="relative z-10 mx-auto w-full max-w-5xl px-5 py-12 sm:px-8 sm:py-16">
           <header className="mb-10 text-center">

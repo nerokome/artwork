@@ -100,7 +100,7 @@ export default function PortfolioSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
       <div className="portfolio-background relative overflow-hidden rounded-2xl">
         <div className="relative z-10 px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-3xl space-y-8">

@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex min-h-[100svh] flex-col md:h-screen md:min-h-0 md:flex-row md:overflow-hidden">
         {/* Desktop Sidebar */}
         <div className="hidden md:block">
           <Sidebar />
@@ -26,7 +26,7 @@ export default function RootLayout({
           </div>
 
           {/* Main Content Area */}
-          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto pt-14 pb-[calc(8rem+env(safe-area-inset-bottom))] focus:outline-none md:pt-0 md:pb-0">
+          <main className="min-w-0 flex-1 pt-14 pb-[calc(8rem+env(safe-area-inset-bottom))] focus:outline-none md:min-h-0 md:overflow-y-auto md:pt-0 md:pb-0">
             {children}
           </main>
         </div>
