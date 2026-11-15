@@ -93,13 +93,13 @@ export default function MessagesPage() {
   const selectedContact = contacts.find((contact) => contact.id === selectedId)
 
   return (
-    <main className="portfolio-background flex h-full min-h-0 flex-col px-2 py-2 text-zinc-100 sm:px-6 sm:py-5">
+    <main className="portfolio-background flex h-[calc(100dvh-3.5rem-8rem-env(safe-area-inset-bottom))] min-h-0 flex-col px-2 py-2 text-zinc-100 sm:h-full sm:px-6 sm:py-5">
       <div className="flex min-h-0 w-full flex-1 flex-col">
         <header className="mb-3 shrink-0 sm:mb-4">
           <DashboardPageHeading icon={MessageCircle}>Messages</DashboardPageHeading>
         </header>
 
-        <div className="grid min-h-[360px] flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">
+        <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">
           <section
             className={`min-h-0 flex-col border-b border-white/10 md:flex md:border-b-0 md:border-r ${
               selectedContact ? 'hidden' : 'flex'
