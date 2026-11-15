@@ -35,7 +35,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full h-20 bg-[#090909] flex items-center justify-between px-4 md:px-8 shadow-sm">
+    <header className="w-full h-20 bg-[#090909] flex items-center justify-between px-4 md:px-8">
       
       <div className="flex min-w-0 items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-cyan-400/40 bg-cyan-400/10 text-sm font-bold text-cyan-300">

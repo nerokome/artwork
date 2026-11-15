@@ -95,7 +95,7 @@ export default function Page() {
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <section className="rounded-3xl border border-white/10 bg-black/50 p-5 shadow-2xl backdrop-blur-md sm:p-8">
+          <section className="rounded-3xl border border-white/10 bg-black/50 p-5 backdrop-blur-md sm:p-8">
             <label htmlFor="artwork-title" className="mb-2 block text-sm font-medium">Artwork name <span className="text-rose-400">*</span></label>
             <input
               id="artwork-title"

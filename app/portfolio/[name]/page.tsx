@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { ArrowLeft, Layout, X } from 'lucide-react'
+import { ArrowLeft, Layout } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
@@ -150,10 +150,12 @@ export default function PublicPortfolioPage() {
             
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 sm:top-8 sm:left-8 flex items-center justify-center sm:justify-start gap-2 h-12 w-12 sm:h-auto sm:w-auto bg-white/10 sm:bg-transparent rounded-full sm:rounded-none text-white transition-all z-[110]"
+              type="button"
+              aria-label="Back to portfolio"
+              className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] sm:top-8 sm:left-8 flex items-center justify-center sm:justify-start gap-2 min-h-12 bg-white/10 sm:bg-transparent px-4 sm:px-0 rounded-full sm:rounded-none text-white transition-all z-[110]"
             >
-              <X size={24} className="sm:hidden" />
-              <ArrowLeft size={20} className="hidden sm:block" />
+              <ArrowLeft size={20} />
+              <span className="text-sm font-medium sm:hidden">Back</span>
               <span className="hidden sm:block text-[10px] font-black uppercase tracking-widest">Exit Preview</span>
             </button>
 
@@ -163,7 +165,7 @@ export default function PublicPortfolioPage() {
                 alt="Exhibit Preview"
                 width={1600}
                 height={1200}
-                className="max-h-[85vh] sm:max-h-full max-w-full rounded-xl sm:rounded-2xl object-contain shadow-[0_0_80px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-500"
+                className="max-h-[85vh] sm:max-h-full max-w-full rounded-xl sm:rounded-2xl object-contain animate-in zoom-in-95 duration-500"
                 priority
               />
             </div>

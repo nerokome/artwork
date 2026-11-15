@@ -3,6 +3,7 @@
 import { ArrowLeft, Trash2, LayoutGrid } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { getMyArtworks, deleteArtwork } from '@/app/redux/store/uploadslice'
@@ -173,13 +174,16 @@ const Page = () => {
           </div>
 
           {/* MODAL */}
-          {selectedImage && (
-            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-6">
+          {selectedImage && typeof document !== 'undefined' && createPortal(
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-6">
               <button
+                type="button"
+                aria-label="Back to artwork gallery"
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-8 left-8 text-zinc-500 hover:text-cyan-400"
+                className="fixed left-4 top-[calc(env(safe-area-inset-top)+1rem)] z-[110] inline-flex min-h-11 items-center gap-2 rounded-full bg-white/10 px-4 text-white transition hover:bg-white/20 hover:text-cyan-400 sm:absolute sm:left-8 sm:top-8"
               >
-                <ArrowLeft size={22} />
+                <ArrowLeft size={20} />
+                <span className="text-sm font-medium">Back</span>
               </button>
 
               <Image
@@ -189,7 +193,8 @@ const Page = () => {
                 height={1080}
                 className="max-h-[80vh] object-contain rounded-lg"
               />
-            </div>
+            </div>,
+            document.body
           )}
 
           {artworkToDelete && (
@@ -204,7 +209,7 @@ const Page = () => {
                 aria-modal="true"
                 aria-labelledby="delete-artwork-title"
                 aria-describedby="delete-artwork-description"
-                className="delete-confirmation w-full max-w-md rounded-3xl p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+                className="delete-confirmation w-full max-w-md rounded-3xl p-6 backdrop-blur-xl sm:p-8"
               >
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-red-400/20 bg-red-400/10 text-red-300">
                   <Trash2 size={21} />

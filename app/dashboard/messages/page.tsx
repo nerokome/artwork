@@ -99,7 +99,7 @@ export default function MessagesPage() {
           <DashboardPageHeading icon={MessageCircle}>Messages</DashboardPageHeading>
         </header>
 
-        <div className="grid min-h-[360px] flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-2xl backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">
+        <div className="grid min-h-[360px] flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl md:min-h-0 md:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] md:grid-rows-1">
           <section
             className={`min-h-0 flex-col border-b border-white/10 md:flex md:border-b-0 md:border-r ${
               selectedContact ? 'hidden' : 'flex'

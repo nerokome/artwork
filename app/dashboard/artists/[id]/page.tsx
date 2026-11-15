@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { ArrowLeft, MessageCircle, UserCheck, UserPlus, UserRound, X } from 'lucide-react'
+import { ArrowLeft, MessageCircle, UserCheck, UserPlus, UserRound } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
@@ -258,16 +258,17 @@ export default function ArtistPortfolioPage() {
 
       {selectedArtwork && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur"
           onClick={() => setSelectedArtwork(null)}
         >
           <button
             type="button"
-            aria-label="Close artwork preview"
+            aria-label="Back to artist profile"
             onClick={() => setSelectedArtwork(null)}
-            className="absolute right-5 top-5 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
+            className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] z-[110] inline-flex min-h-11 items-center gap-2 rounded-full bg-white/10 px-4 text-white hover:bg-white/20 sm:left-5 sm:top-5"
           >
-            <X size={20} />
+            <ArrowLeft size={20} />
+            <span className="text-sm font-medium">Back</span>
           </button>
           <Image
             src={selectedArtwork.url}

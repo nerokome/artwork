@@ -54,7 +54,7 @@ export default function AccountPage() {
   if (!user) {
     return (
       <main className="portfolio-background flex min-h-full items-center justify-center px-4 py-12 text-white">
-        <section className="w-full max-w-md rounded-3xl border border-white/10 bg-black/60 p-8 text-center shadow-2xl backdrop-blur sm:p-10">
+        <section className="w-full max-w-md rounded-3xl border border-white/10 bg-black/60 p-8 text-center backdrop-blur sm:p-10">
           <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
             <UserRound size={26} />
           </span>
@@ -83,7 +83,7 @@ export default function AccountPage() {
 
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(260px,0.8fr)]">
           <section
-            className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur sm:p-8"
+            className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/60 p-5 backdrop-blur sm:p-8"
             aria-labelledby="portfolio-heading"
           >
             <div className="relative">

@@ -261,7 +261,6 @@ html[data-theme='light'] .artist-chat input:not([type='color']) {
   border: 1px solid rgb(255 255 255 / 10%);
   background: rgb(9 9 9 / 95%);
   color: #f4f4f5;
-  box-shadow: 0 25px 50px -12px rgb(8 47 73 / 30%);
 }
 
 .delete-confirmation-title,
@@ -287,7 +286,6 @@ html[data-theme='light'] .delete-confirmation {
   border-color: rgb(24 24 27 / 12%);
   background: rgb(255 255 255 / 96%);
   color: #18181b;
-  box-shadow: 0 25px 50px -12px rgb(8 47 73 / 18%);
 }
 
 html[data-theme='light'] .delete-confirmation-title,

@@ -175,7 +175,7 @@ export default function Sidebar() {
         aria-label="Dashboard navigation"
         className="pointer-events-none fixed inset-x-0 bottom-0 z-[90] flex justify-center px-3 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] text-neutral-200 md:hidden"
       >
-        <div className="pointer-events-auto grid w-full max-w-lg grid-cols-5 rounded-full border border-white/10 bg-black/80 p-1.5 shadow-2xl backdrop-blur-xl">
+        <div className="pointer-events-auto grid w-full max-w-lg grid-cols-5 rounded-full border border-white/10 bg-black/80 p-1.5 backdrop-blur-xl">
           {links
             .filter((link) => link.href !== "/dashboard/messages")
             .slice(0, 5)

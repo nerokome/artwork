@@ -67,7 +67,7 @@ const Signup = () => {
           
           <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-[2.5rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000" />
           
-          <div className="relative bg-black/60 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl">
+          <div className="relative bg-black/60 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 sm:p-10">
           
             <div className="flex flex-col items-center text-center mb-8">
               <div className="p-4 rounded-2xl bg-gradient-to-b from-white/10 to-transparent border border-white/10 mb-6 group-hover:scale-110 transition-transform duration-500">
