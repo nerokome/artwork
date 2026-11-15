@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   ArrowUpRight,
@@ -11,23 +11,28 @@ import {
   Globe2,
   Image,
   Link2,
+  Sparkles,
   Settings,
   UserRound,
 } from "lucide-react";
 import { toast } from "sonner";
 import { RootState } from "@/app/redux/store/store";
 import DashboardPageHeading from "@/app/components/DashboardPageHeading";
+import LoadingScreen from "@/app/components/LoadingScreen";
 
 export default function AccountPage() {
   const user = useSelector((state: RootState) => state.user.user);
+  const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [baseUrl, setBaseUrl] = useState("");
-  useEffect(() => setBaseUrl(window.location.origin), []);
-  const portfolioUrl = useMemo(() => {
-    if (!user?.name) return "";
-    const slug = user.name.trim().toLowerCase().replace(/\s+/g, "-");
-    return `${baseUrl}/portfolio/${slug}`;
-  }, [user?.name, baseUrl]);
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
+  const displayName = user?.name?.trim();
+  const portfolioUrl =
+    displayName && typeof window !== "undefined"
+      ? `${window.location.origin}/portfolio/${displayName.toLowerCase().replace(/\s+/g, "-")}`
+      : "";
 
   const handleCopy = async () => {
     if (!portfolioUrl) return;
@@ -41,6 +46,33 @@ export default function AccountPage() {
     }
   };
 
+  if (!mounted) {
+    return <LoadingScreen className="min-h-full" />;
+  }
+
+  if (!user) {
+    return (
+      <main className="portfolio-background flex min-h-full items-center justify-center px-4 py-12 text-white">
+        <section className="w-full max-w-md rounded-3xl border border-white/10 bg-black/60 p-8 text-center shadow-2xl backdrop-blur sm:p-10">
+          <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
+            <UserRound size={26} />
+          </span>
+          <h1 className="text-2xl font-bold">Your account is waiting</h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-400">
+            Sign in to view your account details and set up your public portfolio.
+          </p>
+          <Link
+            href="/auth/login"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 text-sm font-bold text-black transition hover:bg-cyan-300"
+          >
+            Sign in
+            <ArrowUpRight size={17} />
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="portfolio-background min-h-full px-4 py-8 text-white sm:px-8 sm:py-12">
       <div className="mx-auto max-w-6xl">
@@ -53,69 +85,79 @@ export default function AccountPage() {
             className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur sm:p-8"
             aria-labelledby="portfolio-heading"
           >
-            <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl" />
             <div className="relative">
-              <div className="mb-7 flex items-start justify-between gap-4">
-                <div>
-                  <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
-                    <Globe2 size={21} />
-                  </span>
-                  <h2
-                    id="portfolio-heading"
-                    className="text-xl font-bold sm:text-2xl"
+              <div className="mb-7">
+                <span className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
+                  <Globe2 size={21} />
+                </span>
+                <h2 id="portfolio-heading" className="text-xl font-bold sm:text-2xl">
+                  Public portfolio
+                </h2>
+              </div>
+
+              {portfolioUrl ? (
+                <>
+                  <div className="rounded-2xl border border-white/10 bg-black/40 p-3 sm:p-4">
+                    <p className="mb-2 text-sm font-bold text-zinc-700">
+                      Your portfolio link
+                    </p>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <Link2 size={17} className="shrink-0 text-cyan-400" />
+                      <span className="min-w-0 flex-1 truncate text-sm text-zinc-200">
+                        {portfolioUrl}
+                      </span>
+                      <a
+                        href={portfolioUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Open public portfolio"
+                        className="shrink-0 rounded-lg p-2 text-zinc-400 transition hover:bg-white/10 hover:text-cyan-300"
+                      >
+                        <ExternalLink size={17} />
+                      </a>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 text-sm font-bold text-black transition hover:bg-cyan-300 sm:w-auto"
                   >
-                    Public portfolio
-                  </h2>
-                </div>
-              </div>
+                    {copied ? <Check size={17} /> : <Copy size={17} />}
+                    {copied ? "Copied" : "Copy portfolio link"}
+                  </button>
 
-              <div className="rounded-2xl border border-white/10 bg-black/40 p-3 sm:p-4">
-                <p className="mb-2 text-sm font-bold  text-zinc-700">
-                  Your portfolio link
-                </p>
-                <div className="flex min-w-0 items-center gap-3">
-                  <Link2 size={17} className="shrink-0 text-cyan-400" />
-                  <span className="min-w-0 flex-1 truncate text-sm text-zinc-200">
-                    {portfolioUrl || "Add a display name to create your link"}
-                  </span>
-                  {portfolioUrl && (
-                    <a
-                      href={portfolioUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Open public portfolio"
-                      className="shrink-0 rounded-lg p-2 text-zinc-400 transition hover:bg-white/10 hover:text-cyan-300"
-                    >
-                      <ExternalLink size={17} />
-                    </a>
-                  )}
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleCopy}
-                disabled={!portfolioUrl}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 text-sm font-bold text-black transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
-              >
-                {copied ? <Check size={17} /> : <Copy size={17} />}
-                {copied ? "Copied" : "Copy portfolio link"}
-              </button>
-
-              <div className="mt-8 border-t border-white/10 pt-6">
-                <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-white">
-                    Search preview
+                  <div className="mt-8 border-t border-white/10 pt-6">
+                    <h3 className="mb-4 text-sm font-semibold text-white">
+                      Search preview
+                    </h3>
+                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4 sm:p-5">
+                      <p className="truncate text-base font-semibold text-cyan-300">
+                        Portfolio | {user.name}
+                      </p>
+                      <p className="mt-1 truncate text-xs text-emerald-300/80">
+                        {portfolioUrl}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-5 py-8 text-center">
+                  <Sparkles className="mx-auto text-cyan-300" size={24} />
+                  <h3 className="mt-3 font-semibold text-white">
+                    Your portfolio is not ready yet
                   </h3>
-                </div>
-                <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4 sm:p-5">
-                  <p className="truncate text-base font-semibold text-cyan-300">
-                    Portfolio | {user?.name || "Your name"}
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-zinc-400">
+                    Add a display name to create your public portfolio link and search preview.
                   </p>
-                  <p className="mt-1 truncate text-xs text-emerald-300/80">
-                    {portfolioUrl || "Your portfolio link will appear here"}
-                  </p>
+                  <Link
+                    href="/dashboard/profile"
+                    className="mt-5 inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-4 py-2.5 text-sm font-bold text-black transition hover:bg-cyan-300"
+                  >
+                    Set up your profile
+                    <ArrowUpRight size={16} />
+                  </Link>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 
