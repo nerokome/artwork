@@ -23,6 +23,7 @@ import {
 import Image from 'next/image'
 import { useTheme } from '@/app/components/ThemeProvider'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 import { ChartNoAxesCombined } from 'lucide-react'
 
 ChartJS.register(
@@ -109,7 +110,7 @@ export default function Dashboard() {
           </div>
 
           {(viewsOverTime?.loading || engagementSplit?.loading || mostViewed?.loading) && (
-            <p className="text-center text-zinc-400 animate-pulse">Synchronizing Data..</p>
+            <LoadingIndicator message="Synchronizing data…" className="mb-6" />
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

@@ -11,6 +11,7 @@ import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logArtworkView } from '@/app/redux/store/analysisslice'
 import ArtworkLikeButton from '@/app/components/ArtworkLikeButton'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -153,7 +154,7 @@ export default function ArtistPortfolioPage() {
         </Link>
 
         {loading ? (
-          <p role="status" className="py-20 text-center text-sm text-zinc-400">Loading portfolio…</p>
+          <LoadingIndicator message="Loading portfolio…" className="py-20" />
         ) : error ? (
           <div role="alert" className="rounded-2xl border border-red-400/20 bg-black/40 p-8 text-center text-sm text-red-300">
             {error}

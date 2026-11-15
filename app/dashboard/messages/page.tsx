@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
 import ArtistChat from '@/app/components/ArtistChat'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -119,7 +120,7 @@ export default function MessagesPage() {
             </div>
 
             {loading ? (
-              <p role="status" className="p-6 text-center text-sm text-zinc-400">Loading artists…</p>
+              <LoadingIndicator message="Loading artists…" className="p-6" />
             ) : error ? (
               <p role="alert" className="p-5 text-sm text-red-300">{error}</p>
             ) : visibleContacts.length === 0 ? (

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { fetchNotifications, markNotificationRead } from '@/app/redux/store/messagingslice'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 export default function NotificationsPage() {
   const dispatch = useDispatch<AppDispatch>()
@@ -78,7 +79,7 @@ export default function NotificationsPage() {
         )}
 
         {notificationsLoading && notifications.length === 0 ? (
-          <p role="status" className="py-12 text-center text-sm text-zinc-400">Loading notifications…</p>
+          <LoadingIndicator message="Loading notifications…" className="py-12" />
         ) : notifications.length === 0 ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-14 text-center">
             <Inbox size={32} className="mx-auto mb-3 text-zinc-500" />

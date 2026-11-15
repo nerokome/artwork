@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Eye, Heart, Image as ImageIcon, UserRound, U
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -197,7 +198,7 @@ export default function ArtistsPage() {
             </div>
           </div>
           {artworksLoading ? (
-            <p role="status" className="py-10 text-center text-sm text-zinc-400">Loading popular artworks…</p>
+            <LoadingIndicator message="Loading popular artworks…" className="py-10" />
           ) : artworksError ? (
             <p role="alert" className="rounded-2xl border border-red-400/20 bg-black/40 p-5 text-sm text-red-300">{artworksError}</p>
           ) : popularArtworks.length === 0 ? (
@@ -224,7 +225,7 @@ export default function ArtistsPage() {
         </section>
 
         {loading ? (
-          <p role="status" className="py-16 text-center text-sm text-zinc-400">Loading artists…</p>
+          <LoadingIndicator message="Loading artists…" className="py-16" />
         ) : error ? (
           <div role="alert" className="rounded-2xl border border-red-400/20 bg-black/40 p-6 text-center text-sm text-red-300">
             {error}

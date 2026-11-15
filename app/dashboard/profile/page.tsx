@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { AppDispatch, RootState } from '@/app/redux/store/store'
 import { logoutUser, updateLocalProfile } from '@/app/redux/store/userslice'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024
@@ -219,7 +220,7 @@ export default function ProfilePage() {
           </header>
 
           {loading ? (
-            <p role="status" className="py-16 text-center text-zinc-300">Loading your profile…</p>
+            <LoadingIndicator message="Loading your profile…" className="py-16" />
           ) : error ? (
             <div role="alert" className="mx-auto max-w-3xl rounded-3xl border border-red-400/20 bg-black/60 p-8 text-center text-red-300">
               <p>{error}</p>

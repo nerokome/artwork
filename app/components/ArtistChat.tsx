@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app/redux/store/store'
 import { fetchNotifications } from '@/app/redux/store/messagingslice'
 import { useTheme } from '@/app/components/ThemeProvider'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 import { toast } from 'sonner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
@@ -329,7 +330,7 @@ export default function ArtistChat({
 
       <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain p-3 sm:p-4" aria-live="polite">
         {loading ? (
-          <p role="status" className="m-auto text-sm text-zinc-400">Loading conversation…</p>
+          <LoadingIndicator message="Loading conversation…" className="m-auto" />
         ) : messages.length === 0 ? (
           <p className="m-auto text-sm text-zinc-400">No messages yet. Say hello to start the conversation.</p>
         ) : messages.map((message) => {

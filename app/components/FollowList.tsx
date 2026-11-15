@@ -8,6 +8,7 @@ import { ArrowLeft, UserRound, Users } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/app/redux/store/store'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -106,7 +107,7 @@ export default function FollowList({ type }: { type: 'followers' | 'following' }
         </Link>
         <DashboardPageHeading icon={Users} className="mb-8">{title}</DashboardPageHeading>
         {loading ? (
-          <p role="status" className="py-12 text-center text-sm text-zinc-400">Loading {title.toLowerCase()}…</p>
+          <LoadingIndicator message={`Loading ${title.toLowerCase()}…`} className="py-12" />
         ) : error ? (
           <p role="alert" className="rounded-2xl border border-red-400/20 bg-black/40 p-6 text-center text-sm text-red-300">{error}</p>
         ) : users.length === 0 ? (

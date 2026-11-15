@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   ArrowUpRight,
+  BookOpen,
   Check,
   Copy,
   ExternalLink,
@@ -228,6 +229,24 @@ export default function AccountPage() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block font-bold text-white">Settings</span>
+              </span>
+              <ArrowUpRight
+                size={18}
+                className="shrink-0 text-zinc-500 transition group-hover:text-cyan-300"
+              />
+            </Link>
+            <Link
+              href="/dashboard/readme"
+              className="group flex items-center gap-4 rounded-3xl border border-white/10 bg-black/60 p-5 transition hover:border-cyan-400/30 hover:bg-white/[0.06] sm:p-6"
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 text-cyan-300">
+                <BookOpen size={20} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold text-white">Read me</span>
+                <span className="mt-1 block text-xs text-zinc-400">
+                  Learn how to use Artfolio
+                </span>
               </span>
               <ArrowUpRight
                 size={18}

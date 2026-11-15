@@ -9,6 +9,7 @@ import { useState, useMemo, useEffect, type FormEvent } from 'react'
 import { toast } from 'sonner'
 import ThemeToggle from '@/app/components/ThemeToggle'
 import DashboardPageHeading from '@/app/components/DashboardPageHeading'
+import { LoadingIndicator } from '@/app/components/LoadingScreen'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
 
@@ -157,7 +158,11 @@ export default function PortfolioSettings() {
               </div>
               <div className="rounded-xl border border-white/10 bg-black/40 px-4 py-3">
                 <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">Email address</p>
-                <p className="mt-1 break-all text-sm text-white">{accountLoading ? 'Loading account…' : accountEmail || 'Not available'}</p>
+                {accountLoading ? (
+                  <LoadingIndicator message="Loading account…" compact className="mt-2" />
+                ) : (
+                  <p className="mt-1 break-all text-sm text-white">{accountEmail || 'Not available'}</p>
+                )}
                 <p className="mt-2 text-xs text-zinc-500">Email changes aren’t available yet.</p>
               </div>
               <form onSubmit={handlePasswordChange} className="space-y-4" aria-labelledby="password-heading">
