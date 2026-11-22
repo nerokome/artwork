@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import type { RootState, AppDispatch } from '@/app/redux/store/store';
 import { fetchCurrentProfile, loginUser } from '@/app/redux/store/userslice';
 import { Mail, Lock, Loader2, ArrowLeft, LogIn } from 'lucide-react';
 import ThemeToggle from '@/app/components/ThemeToggle';
+import ArtfolioLogo from '@/app/components/ArtfolioLogo';
 import { toast } from 'sonner';
 
 const Login = () => {
@@ -81,7 +81,7 @@ const Login = () => {
           
             <div className="flex flex-col items-center text-center mb-8">
               <div className="p-4 rounded-2xl bg-gradient-to-b from-white/10 to-transparent border border-white/10 mb-6 group-hover:scale-110 transition-transform duration-500">
-                <Image src="/rarrr.png" alt="Artfolio Logo" width={50} height={50} className="h-10 w-auto brightness-125" priority />
+                <ArtfolioLogo markOnly className="h-10 w-10" />
               </div>
               <h1 className="page-heading text-3xl font-bold text-white tracking-tight">Welcome Back</h1>
               <p className="text-slate-400 mt-2 text-sm">Continue your creative journey.</p>

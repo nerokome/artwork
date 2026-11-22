@@ -13,9 +13,18 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: 'Artfolio',
-  description: '',
+  description: 'A home for artists to share their work and build a portfolio.',
   icons: {
-    icon: '/artfolio-icon.png',
+    icon: [
+      { url: '/artfolio-icon.svg', type: 'image/svg+xml' },
+      { url: '/artfolio-icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    title: 'Artfolio',
+    statusBarStyle: 'black-translucent',
   },
 };
 

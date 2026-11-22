@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import ArtfolioLogo from "./ArtfolioLogo";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -26,14 +26,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-10">
         {/* Logo */}
         <Link href="/" className="group flex items-center transition-transform active:scale-95">
-          <Image
-            src="/rarrr.png"
-            alt="Artfolio Logo"
-            width={120}
-            height={80}
-            priority
-            className="h-16 w-auto sm:h-30 brightness-110 drop-shadow-[0_0_8px_rgba(34,211,238,0.3)]"
-          />
+          <ArtfolioLogo className="h-12 w-auto sm:h-14" />
         </Link>
 
         {/* Desktop Links */}

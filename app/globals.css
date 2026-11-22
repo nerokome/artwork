@@ -7,6 +7,9 @@
 
 :root {
   --page-heading-color: #f4f4f5;
+  --artfolio-logo-surface: #11131a;
+  --artfolio-logo-accent: #22d3ee;
+  --artfolio-logo-text: #f2ede3;
 }
 
 body {
@@ -98,6 +101,9 @@ html[data-theme='light'] body {
 
 html[data-theme='light'] {
   --page-heading-color: #18181b;
+  --artfolio-logo-surface: #ffffff;
+  --artfolio-logo-accent: #0891b2;
+  --artfolio-logo-text: #18181b;
 }
 
 html[data-theme='light'] .portfolio-background {

@@ -16,6 +16,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import ArtfolioLogo from "./ArtfolioLogo";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store/store";
 import { logoutUser } from "@/app/redux/store/userslice";
@@ -226,12 +227,7 @@ export default function Sidebar() {
         <div className="flex items-center justify-between px-6 py-10">
           {!collapsed && (
             <Link href="/" className="transition-all hover:brightness-125">
-              <Image
-                src="/rarrr.png"
-                alt="Artfolio Logo"
-                width={140}
-                height={40}
-              />
+              <ArtfolioLogo className="h-12 w-auto" />
             </Link>
           )}
           <button

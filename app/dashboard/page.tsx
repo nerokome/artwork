@@ -85,9 +85,9 @@ const Page = () => {
       : window.btoa(str)
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen w-full text-white md:min-h-[calc(100svh-5rem)]">
       <div
-        className="portfolio-background relative overflow-hidden rounded-2xl text-white"
+        className="portfolio-background relative min-h-screen w-full overflow-hidden text-white md:min-h-[calc(100svh-5rem)]"
       >
         {/* CONTENT */}
         <div className="relative z-10">
